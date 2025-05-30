@@ -14,7 +14,7 @@
       </div>
     </template>
     <template #content>
-      <ul role="list" class="-mx-2 mt-2 space-y-1">
+      <ul role="list" class="-mx-2">
         <li v-for="item in items" :key="item.name">
           <ItemHome :item="item" @event="onEvent" />
         </li>

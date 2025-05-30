@@ -165,7 +165,7 @@
 import { provide, inject } from 'vue'
 import Sidebar from './components/Sidebar/Sidebar.vue'
 import MainContent from './components/mainContent/MainContent.vue'
-import { expandFolderHandler } from './mainHandler/folderHandler'
+import { expandHomeHandler } from './mainHandler/folderHandler'
 
 const onClickExpandFolder = (event) => {
   console.log('onLoadFolder', event)
@@ -180,7 +180,8 @@ const onEvent = (event) => {
 }
 
 provide('provider', {
-  expandFolderHandler: expandFolderHandler
+  expandHomeHandler: expandHomeHandler,
+
 })
 </script>
 

@@ -1,8 +1,8 @@
 <template>
   <ExpansionPanel>
     <template #header="{ isExpanded, toggleExpanded }">
-      <div class="flex items-center justify-start">
-        <svg v-if="item.total > 0" @click="() => {
+      <div class="flex w-full items-center justify-start">
+        <svg @click="() => {
             toggleExpanded();
             onClickExpand();
         }"
@@ -12,15 +12,15 @@
             d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
             clip-rule="evenodd" />
         </svg>
-        <span v-else class="w-5 h-5">&nbsp;</span>
-        <a class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-400 ">
+        <!-- <span v-else class="w-5 h-5">&nbsp;</span> -->
+        <a class="group flex w-full gap-x-3 rounded-md px-2 py-1 text-sm/6 font-semibold text-gray-400 hover:bg-gray-100 hover:cursor-pointer truncate">
           <FolderIcon class="size-6 shrink-0" />
           <span class="truncate">{{ item.name }}</span>
         </a>
       </div>
     </template>
     <template #content v-if="data.length">
-      <ul role="list" class="ml-2 mt-2 space-y-1">
+      <ul role="list" class="ml-3 mt-2 space-y-1">
         <li v-for="subItem in data" :key="subItem.name">
           <ItemHome :item="subItem" @event="onEvent" />
         </li>
@@ -38,14 +38,14 @@ import {
 
 const props = defineProps({
   item: {
-    type: Object,
+    type: Object, // Type FolderType please check types.js
     required: true,
   },
 })
 
 const emit = defineEmits(['event'])
 
-const { expandFolderHandler } = inject('provider')
+const { expandHomeHandler } = inject('provider')
 
 const data = ref([])
 
@@ -55,8 +55,6 @@ const onClickExpand = () => {
     data: props.item
   })
 
-  debugger
-
-  data.value = expandFolderHandler(props.item)
+  data.value = expandHomeHandler(props.item)
 }
 </script>

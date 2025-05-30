@@ -115,7 +115,7 @@ import GridView from './gridView/GridView.vue'
 import HeaderContent from './headerContent/HeaderContent.vue'
 import StackedList from './stackedList/StackedList.vue'
 
-const typeView = ref('stacked')
+const typeView = ref('grid')
 
 const selectMode = ref(true)
 </script>
