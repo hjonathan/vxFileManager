@@ -30,8 +30,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import HeaderSidebar from './Header/HeaderSidebar.vue'
-import BaseSection from './BaseSection/BaseSection.vue'
+import HeaderSidebar from './header/HeaderSidebar.vue'
+import BaseSection from './baseSection/BaseSection.vue'
 import HomeBaseSection from '../sidebar/homeSection/HomeBaseSection.vue';
 import {
   HomeIcon,

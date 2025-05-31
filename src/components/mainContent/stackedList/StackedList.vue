@@ -1,7 +1,7 @@
 <template>
   <ul role="list"
     class="divide-y divide-gray-100 overflow-hidden bg-white shadow-xs ring-1 ring-gray-900/5 sm:rounded-xl">
-    <StackedItem v-for="item in data" :key="item.name" :data="item">
+    <StackedItem v-for="item in data" :key="item.name" :data="item" @click="onClickItem(item)">
       <template #select v-if="selectMode">
         <div class="group grid size-4 grid-cols-1">
           <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" checked=""
@@ -17,164 +17,40 @@
         </div>
       </template>
       <template #image>
-        <FolderIcon class="size-8 flex-none rounded-full bg-gray-50" />
+        <StackedIcon :item="item" />
       </template>
     </StackedItem>
   </ul>
 </template>
 
 <script setup>
-import { FolderIcon } from '@heroicons/vue/24/outline'
 import StackedItem from './StackedItem.vue'
+import StackedIcon from './StackedIcon.vue'
+import { ContentType, FolderType } from '../../../mainHandler/types'
 
 const selectMode = defineModel('selectMode')
 
-const data = [
-  {
-    name: 'Folder test',
-    description: 'This is a description of the folder test',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'John Doe'
-  },
-  {
-    name: 'Folder test 2',
-    description: 'This is a description of the folder test 2',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'Jane Doe'
-  },
-  {
-    name: 'Folder test 2',
-    description: 'This is a description of the folder test 2',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'Jane Doe'
-  },
-  {
-    name: 'Folder test 2',
-    description: 'This is a description of the folder test 2',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'Jane Doe'
-  },
-  {
-    name: 'Folder test',
-    description: 'This is a description of the folder test',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'John Doe'
-  },
-  {
-    name: 'Folder test 2',
-    description: 'This is a description of the folder test 2',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'Jane Doe'
-  },
-  {
-    name: 'Folder test 2',
-    description: 'This is a description of the folder test 2',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'Jane Doe'
-  },
-  {
-    name: 'Folder test 2',
-    description: 'This is a description of the folder test 2',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'Jane Doe'
-  },
-  {
-    name: 'Folder test',
-    description: 'This is a description of the folder test',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'John Doe'
-  },
-  {
-    name: 'Folder test 2',
-    description: 'This is a description of the folder test 2',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'Jane Doe'
-  },
-  {
-    name: 'Folder test 2',
-    description: 'This is a description of the folder test 2',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'Jane Doe'
-  },
-  {
-    name: 'Folder test 2',
-    description: 'This is a description of the folder test 2',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'Jane Doe'
-  },
-  {
-    name: 'Folder test',
-    description: 'This is a description of the folder test',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'John Doe'
-  },
-  {
-    name: 'Folder test 2',
-    description: 'This is a description of the folder test 2',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'Jane Doe'
-  },
-  {
-    name: 'Folder test 2',
-    description: 'This is a description of the folder test 2',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'Jane Doe'
-  },
-  {
-    name: 'Folder test 2',
-    description: 'This is a description of the folder test 2',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'Jane Doe'
-  },
-  {
-    name: 'Folder test',
-    description: 'This is a description of the folder test',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'John Doe'
-  },
-  {
-    name: 'Folder test 2',
-    description: 'This is a description of the folder test 2',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'Jane Doe'
-  },
-  {
-    name: 'Folder test 2',
-    description: 'This is a description of the folder test 2',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'Jane Doe'
-  },
-  {
-    name: 'Folder test 2',
-    description: 'This is a description of the folder test 2',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'Jane Doe'
-  },
-  {
-    name: 'Folder test',
-    description: 'This is a description of the folder test',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'John Doe'
-  },
-  {
-    name: 'Folder test 2',
-    description: 'This is a description of the folder test 2',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'Jane Doe'
-  },
-  {
-    name: 'Folder test 2',
-    description: 'This is a description of the folder test 2',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'Jane Doe'
-  },
-  {
-    name: 'Folder test 2',
-    description: 'This is a description of the folder test 2',
-    lastModified: '2023-01-23T13:23Z',
-    lastModifiedBy: 'Jane Doe'
+const emit = defineEmits(['event'])
+const props = defineProps({
+  data: {
+    type: Array,
+    required: true,
+    props: [ContentType, FolderType]
   }
-]
+})
+
+
+const onClickItem = (item) => {
+  console.log('onClickItem', item)
+  if (item.type === 'Directory') {
+    emit('event', {
+      type: 'get-content',
+      data: item
+    })
+  }
+}
+
+
 </script>
 
 <style scoped></style>

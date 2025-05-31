@@ -1,0 +1,11 @@
+
+Navigator
+ - Create Initial UI                                            ok 4h
+ - Load form data fake                                          ok 1h
+ - UI expandable                                                ok  1h
+ - Click in folder to load content - data                       ok 1h
+ - Modified Item List                                           ok 1h
+ - Show to main content the load content -stackedlist           ok 1h
+ - Generate documents with fake extensions                      ok 1h
+ - Remove rounded from icons                                    ok 10mins
+ - Add pretty icons to folder and documents                     ok 10mins

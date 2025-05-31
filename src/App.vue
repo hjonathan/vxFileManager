@@ -156,23 +156,31 @@
   <Sidebar class="border-r border-gray-200" @event="onEvent" />
 
   <div class="xl:pl-72">
-    <MainContent />
+    <MainContent :data="dataContentMain" @event="onEvent" />
   </div>
 </div>
 </template>
 
 <script setup>
-import { provide, inject } from 'vue'
-import Sidebar from './components/Sidebar/Sidebar.vue'
+import { provide, inject, ref } from 'vue'
+import Sidebar from './components/sidebar/Sidebar.vue'
 import MainContent from './components/mainContent/MainContent.vue'
-import { expandHomeHandler } from './mainHandler/folderHandler'
+import { expandHomeHandler, getFolderHandler } from './mainHandler/folderHandler'
+
+const dataContentMain = ref([])
 
 const onClickExpandFolder = (event) => {
   console.log('onLoadFolder', event)
 }
 
+const onClickGetContent = (event) => {
+  console.log('onGetContent', event)
+  dataContentMain.value = getFolderHandler(event.data)
+}
+
 const events = {
-  'expand-folder': onClickExpandFolder
+  'expand-folder': onClickExpandFolder,
+  'get-content': onClickGetContent
 }
 
 const onEvent = (event) => {
@@ -181,7 +189,7 @@ const onEvent = (event) => {
 
 provide('provider', {
   expandHomeHandler: expandHomeHandler,
-
+  getFolderHandler: getFolderHandler
 })
 </script>
 

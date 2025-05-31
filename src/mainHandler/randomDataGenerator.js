@@ -39,7 +39,7 @@ const generateRandomEntry = (isFile = false) => {
         cls: isFile ? 'file' : 'folder',
         draggable: true,
         name: name,
-        type: isFile ? 'File' : 'Directory',
+        type:'Directory',
         is_file: isFile,
         appDocCreateDate: createDate,
         qtip: `<strong>${isFile ? 'File' : 'Directory'}: </strong>${name}<br /><strong>Create Date:</strong> ${createDate}`,

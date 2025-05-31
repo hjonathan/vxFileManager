@@ -1,18 +1,5 @@
 export const FolderType = {
   id: String,
-  uuid: String,
-  name: String,
-  type: String, // folder or file
-  isFile: Boolean,
-  createAt: String,
-  writable: Boolean,
-  chmodable: Boolean,
-  readable: Boolean,
-  deletable: Boolean,
-};
-
-export const FolderSourcResponse = {
-  id: String,
   folderID: String,
   text: String,// Notused
   cls: String, // Not used
@@ -27,6 +14,48 @@ export const FolderSourcResponse = {
   is_readable: Boolean,
   is_deletable: Boolean,
 }
+
+
+export const ContentType = {
+    text: String,
+    name: String,
+    type: String,
+    icon: String,
+    appdocid: String,
+    id: String,
+    cls: String,
+    leaf: Boolean,
+    is_file: Boolean,
+    docVersion: Number,
+    appUid: String,
+    usrUid: String,
+    appDocType: String,
+    appDocCreateDate: String,
+    appDocPlugin: String,
+    appDocTags: String,
+    appDocTitle: String,
+    qtip: String,
+    appDocComment: String,
+    appDocFileName: String,
+    appLabel: String,
+    proTitle: String,
+    appDocVersionable: Number,
+    owner: String,
+    owner_firstname: String,
+    owner_lastname: String,
+    deletelabel: String,
+    downloadLabelDOWNLOAD: String,
+    downloadLinkDOWNLOAD: String,
+    downloadLabel: String,
+    downloadLink: String,
+    downloadLabel1: String,
+    downloadLink1: String,
+    appDocUidVersion: String,
+    is_readable: Boolean,
+    outDocGenerate: String
+}
+
+
 
 // {
 //     "text": "Proceso de Créditos",
@@ -46,18 +75,10 @@ export const FolderSourcResponse = {
 // }
 
 export const mapFolderSourceToFolderType = (sourceArray) => {
-  return sourceArray.map(source => {
-    return {
-      id: source.id,
-      uuid: source.folderID,
-      name: source.name,
-      type: source.type,
-      isFile: source.is_file,
-      createAt: source.appDocCreateDate,
-      writable: source.is_writable,
-      chmodable: source.is_chmodable,
-      readable: source.is_readable,
-      deletable: source.is_deletable
-    }
-  })
+  return sourceArray
 };
+
+export const mapContentSourceToContentType = (sourceArray) => {
+  return sourceArray;
+};
+

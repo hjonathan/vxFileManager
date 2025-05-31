@@ -13,7 +13,9 @@
             clip-rule="evenodd" />
         </svg>
         <!-- <span v-else class="w-5 h-5">&nbsp;</span> -->
-        <a class="group flex w-full gap-x-3 rounded-md px-2 py-1 text-sm/6 font-semibold text-gray-400 hover:bg-gray-100 hover:cursor-pointer truncate">
+        <a 
+          @click="onClickGetFolder"
+        class="group flex w-full gap-x-3 rounded-md px-2 py-1 text-sm/6 font-semibold text-gray-400 hover:bg-gray-100 hover:cursor-pointer truncate">
           <FolderIcon class="size-6 shrink-0" />
           <span class="truncate">{{ item.name }}</span>
         </a>
@@ -21,8 +23,8 @@
     </template>
     <template #content v-if="data.length">
       <ul role="list" class="ml-3 mt-2 space-y-1">
-        <li v-for="subItem in data" :key="subItem.name">
-          <ItemHome :item="subItem" @event="onEvent" />
+        <li v-for="subItem in data" :key="subItem.name" @click="onClickGetFolder">
+          <ItemHome :item="subItem"/>
         </li>
       </ul>
     </template>
@@ -32,20 +34,21 @@
 import { ref, inject } from 'vue'
 import ExpansionPanel from '../../../base/ExpansionPanel.vue'
 import ItemHome from './ItemHome.vue'
+import { FolderType } from '../../../../mainHandler/types'
 import {
   FolderIcon,
 } from '@heroicons/vue/24/outline'
 
 const props = defineProps({
   item: {
-    type: Object, // Type FolderType please check types.js
+    type: FolderType,
     required: true,
   },
 })
 
 const emit = defineEmits(['event'])
 
-const { expandHomeHandler } = inject('provider')
+const { expandHomeHandler, getFolderHandler } = inject('provider')
 
 const data = ref([])
 
@@ -56,5 +59,12 @@ const onClickExpand = () => {
   })
 
   data.value = expandHomeHandler(props.item)
+}
+
+const onClickGetFolder = () => {
+  emit('event', {
+    type: "get-content",
+    data: props.item
+  })
 }
 </script>
