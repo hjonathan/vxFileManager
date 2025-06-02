@@ -16,7 +16,7 @@
         <a 
           @click="onClickGetFolder"
         class="group flex w-full gap-x-3 rounded-md px-2 py-1 text-sm/6 font-semibold text-gray-400 hover:bg-gray-100 hover:cursor-pointer truncate">
-          <FolderIcon class="size-6 shrink-0" />
+          <FolderIconVx class="size-6 shrink-0" />
           <span class="truncate">{{ item.name }}</span>
         </a>
       </div>
@@ -35,9 +35,8 @@ import { ref, inject } from 'vue'
 import ExpansionPanel from '../../../base/ExpansionPanel.vue'
 import ItemHome from './ItemHome.vue'
 import { FolderType } from '../../../../mainHandler/types'
-import {
-  FolderIcon,
-} from '@heroicons/vue/24/outline'
+import {FolderIconVx, DocumentIconVx} from '../../../icons/index'
+
 
 const props = defineProps({
   item: {

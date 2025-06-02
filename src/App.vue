@@ -8,7 +8,7 @@
   <body class="h-full">
   ```
 -->
-<div>
+<div class="h-full w-full">
   <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
   <div class="relative z-50 xl:hidden" role="dialog" aria-modal="true">
     <!--
@@ -155,8 +155,8 @@
 
   <Sidebar class="border-r border-gray-200" @event="onEvent" />
 
-  <div class="xl:pl-72">
-    <MainContent :data="dataContentMain" @event="onEvent" />
+  <div class="xl:pl-72 h-full w-full">
+    <MainContent class="w-full relative" :data="dataContentMain" @event="onEvent" :fileManager="fileManager" />
   </div>
 </div>
 </template>
@@ -166,8 +166,12 @@ import { provide, inject, ref } from 'vue'
 import Sidebar from './components/sidebar/Sidebar.vue'
 import MainContent from './components/mainContent/MainContent.vue'
 import { expandHomeHandler, getFolderHandler } from './mainHandler/folderHandler'
+import { useFileManager } from './components/composable/FileManager'
 
 const dataContentMain = ref([])
+
+const fileManager = useFileManager()
+
 
 const onClickExpandFolder = (event) => {
   console.log('onLoadFolder', event)
@@ -180,10 +184,13 @@ const onClickGetContent = (event) => {
 
 const events = {
   'expand-folder': onClickExpandFolder,
-  'get-content': onClickGetContent
+  'get-content': onClickGetContent,
+  'toogle-view-mode': fileManager.toogleViewMode,
+  'toogle-preview-mode': fileManager.tooglePreviewMode
 }
 
 const onEvent = (event) => {
+  console.log('onEvent', event)
   events[event.type](event)
 }
 

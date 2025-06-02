@@ -9,3 +9,13 @@ Navigator
  - Generate documents with fake extensions                      ok 1h
  - Remove rounded from icons                                    ok 10mins
  - Add pretty icons to folder and documents                     ok 10mins
+ - Icons to Navigator                                           ok 10mins
+ - Simple PDF viewer                                            ok 1h
+ - Simple Doc viewer                                            ok 2h
+ - Change of view from button                                   ok 2h
+ - Preview Mode Modal                                           ok 1h
+
+
+
+Grid view
+- Click on folder to expand the preview Mode                    in progress
