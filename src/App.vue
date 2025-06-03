@@ -156,7 +156,7 @@
   <Sidebar class="border-r border-gray-200" @event="onEvent" />
 
   <div class="xl:pl-72 h-full w-full">
-    <MainContent class="w-full relative" :data="dataContentMain" @event="onEvent" :fileManager="fileManager" />
+    <MainContent class="w-full relative overflow-hidden" :data="dataContentMain" @event="onEvent" :fileManager="fileManager" />
   </div>
 </div>
 </template>

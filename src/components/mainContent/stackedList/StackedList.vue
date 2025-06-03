@@ -1,6 +1,6 @@
 <template>
   <ul role="list"
-    class="divide-y divide-gray-100 overflow-hidden bg-white shadow-xs ring-1 ring-gray-900/5 sm:rounded-xl">
+    class="divide-y divide-gray-100 bg-white shadow-xs ring-1 ring-gray-900/5 sm:rounded-xl">
     <StackedItem v-for="item in data" :key="item.name" :data="item" @click="onClickItem(item)">
       <template #select v-if="selectMode">
         <div class="group grid size-4 grid-cols-1">

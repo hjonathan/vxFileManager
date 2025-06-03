@@ -12,14 +12,14 @@
       v-model:selectMode="selectMode"
       @event="onEvent" />
     <GridView
-      class="h-full w-full p-4"
+      class="w-full p-4"
       v-if="viewMode === 'grid'"
       v-model:selectMode="selectMode"
       :data="data"
       />
     <aside
-      class="flex flex-col bg-black/10 absolute h-full right-0 top-0"
-      :class="{ 'w-96': previewMode, 'w-0': !previewMode }">
+      class="flex flex-col bg-white absolute h-full right-0 top-0 border-r border-black/10 transition-transform duration-300 ease-in-out overflow-hidden" 
+      :class="{ 'w-2xl': previewMode, 'w-0 translate-x-full': !previewMode }">
       <header
         @click="isExpanded = !isExpanded"
         class="flex items-center justify-between border-b border-white/5 px-4 py-4 sm:px-6 sm:py-6 lg:px-8 hover:cursor-pointer">
@@ -42,20 +42,13 @@
         </button>
       </header>
 
-      <!-- <div v-if="isExpanded">
+
       <div>
         <input type="file" @change="handleDocFileUpload" accept=".doc,.docx" />
         <VxDocViewer v-if="docFile" :docSource="docFile" />
       </div>
-    </div> -->
     </aside>
   </main>
-
-  <!-- Activity feed -->
-  <!-- <aside
-    class="bg-black/10 lg:fixed lg:top-16 lg:right-0 lg:bottom-0 lg:w-96 lg:overflow-y-auto lg:border-l lg:border-white/5"
-    :class="{ 'lg:w-96': previewMode, 'lg:w-0': !previewMode }"
-  > -->
 </template>
 
 <script setup>
