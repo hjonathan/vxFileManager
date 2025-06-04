@@ -6,7 +6,7 @@
       <dl class="mt-1 flex grow flex-col justify-between">
         <dt class="sr-only">Title</dt>
         <dd class="text-sm text-gray-500">{{ data.type }}</dd>
-        <dt class="sr-only">Role</dt>
+        <dt class="sr-only">Type</dt>
         <!-- <dd class="mt-3">
           <span
             class="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-green-600/20 ring-inset">{{ data.lastModifiedBy }}</span>

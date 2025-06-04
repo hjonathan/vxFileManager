@@ -16,6 +16,15 @@ Navigator
  - Preview Mode Modal                                           ok 1h
 
 
+SIDEBAR
+ - Default view for folder                                      ok 1h
+ - Default pdf preview Mode                                     ok 2h
+ - Improve the main layout                                      ok 20 mins
+ - Close the preview panel                                      ok 10 mins
+ - Default doc preview Mode                                     ok 20 mins
+
+ 
+
 
 Grid view
 - Click on folder to expand the preview Mode                    in progress

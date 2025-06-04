@@ -15,7 +15,6 @@ export const useFileManager = () => {
   const setPreviewMode = (value) => {
     previewMode.value = value
   }
-
   return {
     viewMode,
     toogleViewMode,

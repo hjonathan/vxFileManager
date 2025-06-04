@@ -8,7 +8,7 @@
   <body class="h-full">
   ```
 -->
-<div class="h-full w-full">
+<div class="flex h-full w-full">
   <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
   <div class="relative z-50 xl:hidden" role="dialog" aria-modal="true">
     <!--
@@ -155,7 +155,7 @@
 
   <Sidebar class="border-r border-gray-200" @event="onEvent" />
 
-  <div class="xl:pl-72 h-full w-full">
+  <div class="flex flex-col h-full w-full overflow-hidden">
     <MainContent class="w-full relative overflow-hidden" :data="dataContentMain" @event="onEvent" :fileManager="fileManager" />
   </div>
 </div>
@@ -186,7 +186,10 @@ const events = {
   'expand-folder': onClickExpandFolder,
   'get-content': onClickGetContent,
   'toogle-view-mode': fileManager.toogleViewMode,
-  'toogle-preview-mode': fileManager.tooglePreviewMode
+  'toogle-preview-mode': fileManager.tooglePreviewMode,
+  'close-preview-mode': () => {
+    fileManager.setPreviewMode(false)
+  }
 }
 
 const onEvent = (event) => {

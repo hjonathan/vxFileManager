@@ -1,46 +1,46 @@
 <template>
-  <div class="pdf-viewer">
-    <div class="pdf-controls mb-4 flex items-center gap-4">
-      <button 
-        @click="prevPage" 
-        :disabled="currentPage <= 1"
-        class="rounded bg-gray-700 px-3 py-1 text-sm text-white hover:bg-gray-600 disabled:opacity-50"
-      >
-        Previous
-      </button>
-      <button 
-        @click="nextPage" 
-        :disabled="currentPage >= totalPages"
-        class="rounded bg-gray-700 px-3 py-1 text-sm text-white hover:bg-gray-600 disabled:opacity-50"
-      >
-        Next
-      </button>
-      <span class="text-sm text-gray-400">Page {{ currentPage }} of {{ totalPages }}</span>
-      <div class="flex items-center gap-2">
-        <button 
-          @click="zoomOut" 
-          class="rounded bg-gray-700 px-3 py-1 text-sm text-white hover:bg-gray-600"
-        >
-          Zoom Out
-        </button>
-        <button 
-          @click="zoomIn" 
-          class="rounded bg-gray-700 px-3 py-1 text-sm text-white hover:bg-gray-600"
-        >
-          Zoom In
-        </button>
-        <span class="text-sm text-gray-400">{{ Math.round(scale * 100) }}%</span>
+  <div class="p-4 w-full overflow-hidden bg-gray-800">
+    <div class="w-full h-full overflow-hidden bg-gray-800">
+      <div class="pdf-controls mb-4 flex justify-between items-center gap-2">
+        <div class="flex items-center gap-4">
+          <button @click="prevPage" :disabled="currentPage <= 1"
+            class="rounded bg-gray-700 px-1 py-1 text-sm text-white hover:bg-gray-600 disabled:opacity-50 hover:cursor-pointer">
+            <ChevronLeftIcon class="size-4" />
+          </button>
+
+          <span class="text-sm text-white">{{ currentPage }} / {{ totalPages }}</span>
+
+          <button @click="nextPage" :disabled="currentPage >= totalPages"
+            class="rounded bg-gray-700 px-1 py-1 text-sm text-white hover:bg-gray-600 disabled:opacity-50 hover:cursor-pointer">
+            <ChevronRightIcon class="size-4" />
+          </button>
+        </div>
+
+
+        <div class="flex items-center text-sm  gap-4 text-white">
+          <button @click="zoomOut" class="rounded p-1 bg-gray-700 hover:bg-gray-600 hover:cursor-pointer">
+            <MagnifyingGlassMinusIcon class="size-4" />
+          </button>
+
+          <span class="text-sm text-white">{{ Math.round(scale * 100) }}%</span>
+
+          <button @click="zoomIn" class="rounded p-1 bg-gray-700 hover:bg-gray-600 hover:cursor-pointer">
+            <MagnifyingGlassPlusIcon class="size-4" />
+          </button>
+
+        </div>
       </div>
-    </div>
-    
-    <div class="pdf-container" ref="pdfContainer">
-      <canvas ref="pdfCanvas" class="mx-auto"></canvas>
+
+      <div class="h-full overflow-scroll" ref="pdfContainer">
+        <canvas ref="pdfCanvas" class="mx-auto"></canvas>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, watch } from 'vue'
+import { ChevronLeftIcon, ChevronRightIcon, MagnifyingGlassPlusIcon, MagnifyingGlassMinusIcon } from '@heroicons/vue/24/outline'
 import * as pdfjsLib from 'pdfjs-dist'
 
 // Configurar el worker
@@ -120,34 +120,18 @@ watch([currentPage, scale], () => {
 })
 
 // Watch for changes in PDF source
-watch(() => props.pdfSource, () => {
-  loadPdf()
-})
+// watch(() => props.pdfSource, () => {
+//   loadPdf()
+// })
 
 onMounted(() => {
-  console.log('onMounted')
   loadPdf()
 })
 </script>
 
 <style scoped>
-.pdf-viewer {
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: #1a1a1a;
-  padding: 1rem;
-}
-
-.pdf-container {
-  display: flex;
-  justify-content: center;
-  min-height: 500px;
-  overflow: auto;
-}
-
 canvas {
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   background-color: white;
 }
-</style> 
+</style>

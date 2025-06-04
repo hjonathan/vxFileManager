@@ -1,53 +1,16 @@
 <template>
   <!-- Sticky search header -->
-  <HeaderContent
-    @event="onEvent"
-    :fileManager="fileManager" />
+  <HeaderContent @event="onEvent" :fileManager="fileManager" />
 
-  <main class="w-full relative h-full">
-    <StackedList
-      :data="data"
-      class="h-full w-full"
-      v-if="viewMode === 'stacked'"
-      v-model:selectMode="selectMode"
-      @event="onEvent" />
-    <GridView
-      class="w-full p-4"
-      v-if="viewMode === 'grid'"
-      v-model:selectMode="selectMode"
-      :data="data"
-      />
-    <aside
-      class="flex flex-col bg-white absolute h-full right-0 top-0 border-r border-black/10 transition-transform duration-300 ease-in-out overflow-hidden" 
-      :class="{ 'w-2xl': previewMode, 'w-0 translate-x-full': !previewMode }">
-      <header
-        @click="isExpanded = !isExpanded"
-        class="flex items-center justify-between border-b border-white/5 px-4 py-4 sm:px-6 sm:py-6 lg:px-8 hover:cursor-pointer">
-        <h2
-          v-if="isExpanded"
-          class="text-base/7 font-semibold">
-          Activity feed
-        </h2>
-        <button class="text-sm/6 font-semibold text-indigo-400">
-          <svg
-            class="h-5 w-5"
-            :class="{ 'rotate-180': !isExpanded }"
-            viewBox="0 0 20 20"
-            fill="currentColor">
-            <path
-              fill-rule="evenodd"
-              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-              clip-rule="evenodd" />
-          </svg>
-        </button>
-      </header>
+  <main class="flex w-full relative h-full overflow-hidden">
+    <div class="w-full h-full overflow-scroll">
+      <StackedList :data="data" class="h-full w-full" v-if="viewMode === 'stacked'" v-model:selectMode="selectMode"
+        @event="onEvent" />
+      <GridView class="w-full p-4" v-if="viewMode === 'grid'" v-model:selectMode="selectMode" :data="data" />
+    </div>
 
-
-      <div>
-        <input type="file" @change="handleDocFileUpload" accept=".doc,.docx" />
-        <VxDocViewer v-if="docFile" :docSource="docFile" />
-      </div>
-    </aside>
+    <PreviewPanel @event="onEvent"
+      :previewMode="previewMode" :class="{ 'w-lg': previewMode, 'w-0 translate-x-full': !previewMode }" />
   </main>
 </template>
 
@@ -58,6 +21,7 @@ import HeaderContent from "./headerContent/HeaderContent.vue";
 import StackedList from "./stackedList/StackedList.vue";
 import { ContentType, FolderType } from "../../mainHandler/types";
 import VxDocViewer from "../docViewer/VxDocViewer.vue";
+import PreviewPanel from "../previewPanel/PreviewPanel.vue";
 
 const emit = defineEmits(["event"]);
 const props = defineProps({
@@ -97,7 +61,6 @@ const handleFileUpload = (event) => {
 const selectMode = ref(false);
 
 const onEvent = (event) => {
-  console.log("onEvent", event);
   emit("event", event);
 };
 </script>

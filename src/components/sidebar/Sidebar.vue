@@ -1,6 +1,6 @@
 <template>
   <!-- Static sidebar for desktop -->
-  <div class="hidden xl:fixed xl:inset-y-0 xl:z-50 xl:flex xl:w-72 xl:flex-col text-gray-500">
+  <div class="hidden xl:inset-y-0 xl:z-50 xl:flex xl:w-72 xl:flex-col text-gray-500 overflow-scroll">
     <!-- Sidebar component, swap this element with another sidebar if you like -->
     <div class="flex grow flex-col gap-y-5 overflow-y-auto px-6 ring-1 ring-white/5">
       <HeaderSidebar />

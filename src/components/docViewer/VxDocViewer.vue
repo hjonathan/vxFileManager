@@ -1,41 +1,38 @@
 <template>
-  <div class="doc-viewer">
-    <div class="doc-controls mb-4 flex items-center gap-4">
-      <button 
-        @click="prevPage" 
-        :disabled="currentPage <= 1"
-        class="rounded bg-gray-700 px-3 py-1 text-sm text-white hover:bg-gray-600 disabled:opacity-50"
-      >
-        Anterior
-      </button>
-      <button 
-        @click="nextPage" 
-        :disabled="currentPage >= totalPages"
-        class="rounded bg-gray-700 px-3 py-1 text-sm text-white hover:bg-gray-600 disabled:opacity-50"
-      >
-        Siguiente
-      </button>
-      <span class="text-sm text-gray-400">Página {{ currentPage }} de {{ totalPages }}</span>
-      <div class="flex items-center gap-2">
+  <div class="flex flex-col w-full overflow-hidden bg-gray-800 p-3">
+    <div class="doc-controls text-sm mb-4 flex justify-between items-center gap-2">
+      <div class="flex items-center gap-4">
+        <!-- <button 
+          @click="prevPage" 
+          :disabled="currentPage <= 1"
+          class="rounded bg-gray-700 px-1 py-1 text-white hover:bg-gray-600 disabled:opacity-50 hover:cursor-pointer"
+        >
+          <ChevronLeftIcon class="size-4" />
+        </button>
+        <span class="text-white">{{ currentPage }} / {{ totalPages }}</span>
+        <button 
+          @click="nextPage" 
+          :disabled="currentPage >= totalPages"
+          class="rounded bg-gray-700 px-1 py-1 text-white hover:bg-gray-600 disabled:opacity-50 hover:cursor-pointer"
+        >
+          <ChevronRightIcon class="size-4" />
+        </button> -->
+      </div>
+
+      <div class="flex items-center  gap-4 text-white">
         <button 
           @click="zoomOut" 
-          class="rounded bg-gray-700 px-3 py-1 text-sm text-white hover:bg-gray-600"
+          class="rounded p-1 bg-gray-700 hover:bg-gray-600 hover:cursor-pointer"
         >
-          Zoom Out
+          <MagnifyingGlassMinusIcon class="size-4" />
         </button>
-        <button 
-          @click="resetZoom" 
-          class="rounded bg-gray-700 px-3 py-1 text-sm text-white hover:bg-gray-600"
-        >
-          Tamaño Real
-        </button>
+        <span class="text-white">{{ Math.round(scale * 100) }}%</span>
         <button 
           @click="zoomIn" 
-          class="rounded bg-gray-700 px-3 py-1 text-sm text-white hover:bg-gray-600"
+          class="rounded p-1 bg-gray-700 hover:bg-gray-600 hover:cursor-pointer"
         >
-          Zoom In
+          <MagnifyingGlassPlusIcon class="size-4" />
         </button>
-        <span class="text-sm text-gray-400">{{ Math.round(scale * 100) }}%</span>
       </div>
     </div>
     
@@ -56,6 +53,7 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
 import mammoth from 'mammoth'
+import { ChevronLeftIcon, ChevronRightIcon, MagnifyingGlassPlusIcon, MagnifyingGlassMinusIcon } from '@heroicons/vue/24/outline'
 
 const props = defineProps({
   docSource: {
@@ -150,20 +148,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.doc-viewer {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background-color: #1a1a1a;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-}
-
 .doc-container {
   flex: 1;
   overflow: auto;
-  padding: 2rem;
   display: flex;
   justify-content: center;
   scroll-snap-type: y mandatory;
@@ -181,7 +168,6 @@ onMounted(() => {
   width: 21cm;
   min-height: 29.7cm;
   padding: 2cm;
-  margin: 1cm auto;
   background: white;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   scroll-snap-align: start;
