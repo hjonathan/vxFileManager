@@ -13,4 +13,13 @@ export default defineConfig({
   optimizeDeps: {
     include: ['pdfjs-dist/build/pdf.worker.mjs']
   },
+  build: {
+    rollupOptions: {
+      output: {
+        entryFileNames: 'assets/[name].js',
+        chunkFileNames: 'assets/[name].js',
+        assetFileNames: 'assets/[name].[ext]'
+      }
+    }
+  }
 })

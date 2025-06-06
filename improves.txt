@@ -35,4 +35,5 @@ Grid view
 - Click on folder to expand the preview Mode                    in progress
 
 INTEGRATION LUOS
- - Environment installation                                     ok 
+ - Environment installation                                     ok 6h
+- Get first list of luos be                                     ok 4h

@@ -153,7 +153,7 @@
     </div>
   </div>
 
-  <Sidebar class="border-r border-gray-200" @event="onEvent" />
+  <Sidebar class="border-r border-gray-200" @event="onEvent" :data="dataNavigator" />
 
   <div class="flex flex-col h-full w-full overflow-hidden">
     <MainContent class="w-full relative overflow-hidden" :data="dataContentMain" @event="onEvent" :fileManager="fileManager" />
@@ -162,13 +162,14 @@
 </template>
 
 <script setup>
-import { provide, inject, ref } from 'vue'
+import { provide, inject, ref, onMounted } from 'vue'
 import Sidebar from './components/sidebar/Sidebar.vue'
 import MainContent from './components/mainContent/MainContent.vue'
 import { expandHomeHandler, getFolderHandler } from './mainHandler/folderHandler'
 import { useFileManager } from './components/composable/FileManager'
 
 const dataContentMain = ref([])
+const dataNavigator = ref([])
 
 const fileManager = useFileManager()
 
@@ -177,9 +178,10 @@ const onClickExpandFolder = (event) => {
   console.log('onLoadFolder', event)
 }
 
-const onClickGetContent = (event) => {
-  console.log('onGetContent', event)
-  dataContentMain.value = getFolderHandler(event.data)
+const onClickGetContent = async (event) => {
+  const response = await getFolderHandler(event)
+
+  dataContentMain.value = response
 }
 
 const events = {
@@ -193,13 +195,20 @@ const events = {
 }
 
 const onEvent = (event) => {
-  console.log('onEvent', event)
+  console.log('onEvent MAIN', event)
   events[event.type](event)
 }
 
 provide('provider', {
   expandHomeHandler: expandHomeHandler,
   getFolderHandler: getFolderHandler
+})
+onMounted(async () => {
+  const response = await expandHomeHandler()
+  dataNavigator.value = response
+
+  const responseFiles = await getFolderHandler()
+  dataContentMain.value = responseFiles
 })
 </script>
 

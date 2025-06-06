@@ -2,7 +2,7 @@
   <ExpansionPanel>
     <template #header="{ isExpanded, toggleExpanded }">
       <div class="flex w-full items-center justify-start">
-        <svg @click="() => {
+        <svg @click.self.prevent.stop="() => {
             toggleExpanded();
             onClickExpand();
         }"
@@ -14,7 +14,7 @@
         </svg>
         <!-- <span v-else class="w-5 h-5">&nbsp;</span> -->
         <a 
-          @click="onClickGetFolder"
+          @click.prevent.stop="onClickGetFolder"
         class="group flex w-full gap-x-3 rounded-md px-2 py-1 text-sm/6 font-semibold text-gray-400 hover:bg-gray-100 hover:cursor-pointer truncate">
           <FolderIconVx class="size-6 shrink-0" />
           <span class="truncate">{{ item.name }}</span>
@@ -23,8 +23,8 @@
     </template>
     <template #content v-if="data.length">
       <ul role="list" class="ml-3 mt-2 space-y-1">
-        <li v-for="subItem in data" :key="subItem.name" @click="onClickGetFolder">
-          <ItemHome :item="subItem"/>
+        <li v-for="(subItem, i) in data" :key="subItem.name + i">
+          <ItemHome :item="subItem" @event="onEvent"/>
         </li>
       </ul>
     </template>
@@ -51,19 +51,24 @@ const { expandHomeHandler, getFolderHandler } = inject('provider')
 
 const data = ref([])
 
-const onClickExpand = () => {
+const onClickExpand = async () => {
   emit('event', {
     type: "expand-folder",
     data: props.item
   })
 
-  data.value = expandHomeHandler(props.item)
+  data.value = await expandHomeHandler({data: props.item})
 }
 
 const onClickGetFolder = () => {
+  console.log('onClickGetFolder', props.item)
   emit('event', {
     type: "get-content",
     data: props.item
   })
+}
+
+const onEvent = (event) => {
+  emit('event', event)
 }
 </script>

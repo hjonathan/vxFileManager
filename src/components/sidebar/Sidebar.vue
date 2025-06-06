@@ -10,7 +10,7 @@
             <BaseSection :items="baseItems"/>
           </li>
           <li>
-            <HomeBaseSection :items="favorites" title="Navigator" @event="onEvent" :enable="true" />
+            <HomeBaseSection :items="data" title="Navigator" @event="onEvent" :enable="true" />
           </li>
           <li>
             <HomeBaseSection :items="projects" title="Projects" />
@@ -41,6 +41,13 @@ import {
 } from '@heroicons/vue/24/outline'
 
 const emit = defineEmits(['event'])
+
+const props = defineProps({
+  data: {
+    type: Array,
+    required: true,
+  },
+})
 
 const baseItems = ref([
   {
