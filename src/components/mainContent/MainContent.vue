@@ -20,7 +20,6 @@ import GridView from "./gridView/GridView.vue";
 import HeaderContent from "./headerContent/HeaderContent.vue";
 import StackedList from "./stackedList/StackedList.vue";
 import { ContentType, FolderType } from "../../mainHandler/types";
-import VxDocViewer from "../docViewer/VxDocViewer.vue";
 import PreviewPanel from "../previewPanel/PreviewPanel.vue";
 
 const emit = defineEmits(["event"]);

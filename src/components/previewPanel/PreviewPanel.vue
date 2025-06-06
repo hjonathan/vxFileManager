@@ -15,8 +15,10 @@
 
     <input type="file" @change="handleFileUpload" accept=".pdf" />
     <input type="file" @change="handleDocFileUpload" accept=".doc,.docx" />
+    <input type="file" @change="handleImageFileUpload" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff,.ico,.webp" />
     <VxDocViewer v-if="docFile" :docSource="docFile" class="h-[50%]" />
     <VxPdfViewer v-if="pdfFile" :pdfSource="pdfFile" class="h-[50%]" />
+    <VxImageViewer v-if="imageFile" :imageSrc="imageFile" class="h-[50%]" />
 
   </aside>
 </template>
@@ -25,8 +27,9 @@
 import { ref } from 'vue'
 import FolderPreview from './previews/FolderPreview.vue'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
-import VxPdfViewer from '../pdfViewer/VxPdfViewer.vue'
-import VxDocViewer from '../docViewer/VxDocViewer.vue'
+import VxPdfViewer from '../fileViewer/VxPdfViewer.vue'
+import VxDocViewer from '../fileViewer/VxDocViewer.vue'
+import VxImageViewer from '../fileViewer/VxImageViewer.vue'
 
 const emit = defineEmits(["event"]);
 
@@ -38,6 +41,7 @@ const data = ref({
 
 const pdfFile = ref()
 const docFile = ref()
+const imageFile = ref()
 
 const handleDocFileUpload = async (event) => {
   const file = event.target.files[0];
@@ -51,6 +55,13 @@ const handleFileUpload = (event) => {
   const file = event.target.files[0];
   if (file) {
     pdfFile.value = URL.createObjectURL(file);
+  }
+};
+
+const handleImageFileUpload = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    imageFile.value = [URL.createObjectURL(file)];
   }
 };
 

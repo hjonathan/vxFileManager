@@ -16,6 +16,11 @@ Navigator
  - Preview Mode Modal                                           ok 1h
 
 
+PREVIEW Mode
+ - Image viewer                                                 ok 1h
+
+
+
 SIDEBAR
  - Default view for folder                                      ok 1h
  - Default pdf preview Mode                                     ok 2h
@@ -28,3 +33,6 @@ SIDEBAR
 
 Grid view
 - Click on folder to expand the preview Mode                    in progress
+
+INTEGRATION LUOS
+ - Environment installation                                     ok 
