@@ -47,11 +47,13 @@ import * as pdfjsLib from 'pdfjs-dist'
 pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.mjs'
 
 const props = defineProps({
-  pdfSource: {
+  data: {
     type: [String, Object, Uint8Array],
     required: true
   }
 })
+
+console.log('data', props.data)
 
 const pdfCanvas = ref(null)
 const pdfContainer = ref(null)
@@ -63,7 +65,7 @@ let pdfDoc = null
 const loadPdf = async () => {
   try {
     // Load the PDF document
-    pdfDoc = await pdfjsLib.getDocument(props.pdfSource).promise
+    pdfDoc = await pdfjsLib.getDocument(props.data).promise
     totalPages.value = pdfDoc.numPages
     renderPage()
   } catch (error) {

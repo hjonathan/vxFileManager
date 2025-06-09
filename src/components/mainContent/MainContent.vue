@@ -9,7 +9,7 @@
       <GridView class="w-full p-4" v-if="viewMode === 'grid'" v-model:selectMode="selectMode" :data="data" />
     </div>
 
-    <PreviewPanel @event="onEvent"
+    <PreviewPanel v-if="previewItem" @event="onEvent" :fileManager="fileManager"
       :previewMode="previewMode" :class="{ 'w-lg': previewMode, 'w-0 translate-x-full': !previewMode }" />
   </main>
 </template>
@@ -35,7 +35,7 @@ const props = defineProps({
   },
 });
 
-const { viewMode, previewMode } = props.fileManager;
+const { viewMode, previewMode, previewItem } = props.fileManager;
 const isExpanded = ref(false);
 
 const pdfFile = ref(null);

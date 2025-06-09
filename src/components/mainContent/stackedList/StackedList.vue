@@ -1,7 +1,7 @@
 <template>
   <ul role="list"
     class="divide-y divide-gray-100 bg-white shadow-xs ring-1 ring-gray-900/5 sm:rounded-xl">
-    <StackedItem v-for="item in data" :key="item.name" :data="item" @click="onClickItem(item)">
+    <StackedItem v-for="item in data" :key="item.name" :data="item" @click="handleClick(item)">
       <template #select v-if="selectMode">
         <div class="group grid size-4 grid-cols-1">
           <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" checked=""
@@ -24,6 +24,7 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import StackedItem from './StackedItem.vue'
 import StackedIcon from './StackedIcon.vue'
 import { ContentType, FolderType } from '../../../mainHandler/types'
@@ -39,18 +40,43 @@ const props = defineProps({
   }
 })
 
+const clicks = ref(0);
+const delay = 200;
 
-const onClickItem = (item) => {
+
+const onDoubleClickStage = (item) => {
   console.log('onClickItem', item)
   if (item.type === 'Directory') {
     emit('event', {
       type: 'get-content',
       data: item
     })
+    emit('event', {
+      type: 'close-preview-mode',
+    })
   }
 }
 
+const onClickItem = (item) => {
+  emit('event', {
+    type: 'open-preview-mode',
+    data: item
+  })
+}
 
+const handleClick = (item) => {
+  clicks.value += 1;
+  if (clicks.value === 1) {
+    setTimeout(() => {
+      if (clicks.value === 1) {
+        onClickItem(item)
+      } else if (clicks.value === 2) {
+        onDoubleClickStage(item)
+      }
+      clicks.value = 0;
+    }, delay);
+  }
+};
 </script>
 
 <style scoped></style>

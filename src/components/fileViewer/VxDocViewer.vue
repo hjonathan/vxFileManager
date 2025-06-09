@@ -56,7 +56,7 @@ import mammoth from 'mammoth'
 import { ChevronLeftIcon, ChevronRightIcon, MagnifyingGlassPlusIcon, MagnifyingGlassMinusIcon } from '@heroicons/vue/24/outline'
 
 const props = defineProps({
-  docSource: {
+  data: {
     type: [String, Object, Uint8Array],
     required: true
   }
@@ -77,12 +77,12 @@ const loadDocument = async () => {
   
   try {
     let result
-    if (typeof props.docSource === 'string') {
-      const response = await fetch(props.docSource)
+    if (typeof props.data === 'string') {
+      const response = await fetch(props.data)
       const arrayBuffer = await response.arrayBuffer()
       result = await mammoth.convertToHtml({ arrayBuffer })
-    } else if (props.docSource instanceof Uint8Array) {
-      result = await mammoth.convertToHtml({ arrayBuffer: props.docSource })
+    } else if (props.data instanceof Uint8Array) {
+      result = await mammoth.convertToHtml({ arrayBuffer: props.data })
     } else {
       throw new Error('Formato de documento no soportado')
     }
@@ -138,7 +138,7 @@ const resetZoom = () => {
 }
 
 // Watch for changes in document source
-watch(() => props.docSource, () => {
+watch(() => props.data, () => {
   loadDocument()
 })
 

@@ -156,7 +156,7 @@
   <Sidebar class="border-r border-gray-200" @event="onEvent" :data="dataNavigator" />
 
   <div class="flex flex-col h-full w-full overflow-hidden">
-    <MainContent class="w-full relative overflow-hidden" :data="dataContentMain" @event="onEvent" :fileManager="fileManager" />
+    <MainContent class="w-full h-full relative overflow-hidden" :data="dataContentMain" @event="onEvent" :fileManager="fileManager" />
   </div>
 </div>
 </template>
@@ -191,6 +191,11 @@ const events = {
   'toogle-preview-mode': fileManager.tooglePreviewMode,
   'close-preview-mode': () => {
     fileManager.setPreviewMode(false)
+  },
+  'open-preview-mode': (event) => {
+    fileManager.setPreviewMode(true)
+    console.log('open-preview-mode', event.data)
+    fileManager.setPreviewItem(event.data)
   }
 }
 

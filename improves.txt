@@ -29,11 +29,10 @@ SIDEBAR
  - Default doc preview Mode                                     ok 20 mins
 
  
-
-
-Grid view
-- Click on folder to expand the preview Mode                    in progress
-
 INTEGRATION LUOS
  - Environment installation                                     ok 6h
 - Get first list of luos be                                     ok 4h
+
+CONTENT MAIN
+- Click on folder to expand the preview Mode                    ok 1h
+- Click on pdf, doc and show in preview mode                    ok 2h

@@ -13,35 +13,73 @@
 
     <!-- <FolderPreview :data="data" /> -->
 
-    <input type="file" @change="handleFileUpload" accept=".pdf" />
+    <!-- <input type="file" @change="handleFileUpload" accept=".pdf" />
     <input type="file" @change="handleDocFileUpload" accept=".doc,.docx" />
-    <input type="file" @change="handleImageFileUpload" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff,.ico,.webp" />
-    <VxDocViewer v-if="docFile" :docSource="docFile" class="h-[50%]" />
-    <VxPdfViewer v-if="pdfFile" :pdfSource="pdfFile" class="h-[50%]" />
-    <VxImageViewer v-if="imageFile" :imageSrc="imageFile" class="h-[50%]" />
+    <input type="file" @change="handleImageFileUpload" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff,.ico,.webp" /> -->
+    <!-- <VxDocViewer v-if="docFile" :docSource="docFile" class="h-[50%]" />
+     
+      <VxImageViewer v-if="imageFile" :imageSrc="imageFile" class="h-[50%]" /> -->
+
+    <component v-if="previewItem" :is="componentsFactory[typeComputed]" :data="dataComputed" class="h-[50%]"/>
+
+    <!-- <VxPdfViewer  :data="pdfFile" class="h-[50%]" /> -->
 
   </aside>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import FolderPreview from './previews/FolderPreview.vue'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 import VxPdfViewer from '../fileViewer/VxPdfViewer.vue'
 import VxDocViewer from '../fileViewer/VxDocViewer.vue'
 import VxImageViewer from '../fileViewer/VxImageViewer.vue'
+import { urlFormat } from '../utils/urlFormat'
 
 const emit = defineEmits(["event"]);
 
-const data = ref({
-  name: 'Folder 1',
-  type: 'Folder',
-  size: '100MB'
+const props = defineProps({
+  fileManager: {
+    type: Object,
+    required: true
+  }
 })
 
-const pdfFile = ref()
+const componentsFactory = {
+  'directory': FolderPreview,
+  'doc': VxDocViewer,
+  'image': VxImageViewer,
+  'pdf': VxPdfViewer,
+  // 'Audio': VxAudioViewer
+}
+console.log('previewItem', props.fileManager)
+
+const { previewItem } = props.fileManager
+const pdfFile = ref('http://localhost:8100/sysworkflow/en/lurana/cases/cases_ShowDocument?a=88922262668465b04bc71d7037241065&v=1&p=1')
 const docFile = ref()
 const imageFile = ref()
+
+const typeComputed = computed(() => {
+  console.log('previewItem TYPE', previewItem.value.type)
+  if (previewItem?.value?.type === 'Directory') {
+    return 'directory'
+  } else if (previewItem?.value?.type === 'PDF File') {
+    return 'pdf'
+  } else if (previewItem?.value?.type === 'Word Document') {
+    return 'doc'
+  }
+})
+
+const dataComputed = computed(() => {
+  if (previewItem?.value?.type === 'Directory') {
+    return previewItem.value
+  } else if (previewItem?.value?.type === 'PDF File') {
+    console.log('previewItem.value.downloadLink', window.location.href + previewItem.value.downloadLink)
+    return  urlFormat(previewItem.value.downloadLink)
+  } else if (previewItem?.value?.type === 'Word Document') {
+    return urlFormat(previewItem.value.downloadLink)
+  }
+})
 
 const handleDocFileUpload = async (event) => {
   const file = event.target.files[0];
