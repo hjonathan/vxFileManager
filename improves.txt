@@ -18,8 +18,10 @@ Navigator
 
 PREVIEW Mode
  - Image viewer                                                 ok 1h
-
-
+ 
+INTEGRATION LUOS
+- Environment installation                                     ok 6h
+- Get first list of luos be                                     ok 4h
 
 SIDEBAR
  - Default view for folder                                      ok 1h
@@ -27,12 +29,11 @@ SIDEBAR
  - Improve the main layout                                      ok 20 mins
  - Close the preview panel                                      ok 10 mins
  - Default doc preview Mode                                     ok 20 mins
+ - Resizable functionality                                      ok 20 mins
 
- 
-INTEGRATION LUOS
- - Environment installation                                     ok 6h
-- Get first list of luos be                                     ok 4h
 
 CONTENT MAIN
 - Click on folder to expand the preview Mode                    ok 1h
 - Click on pdf, doc and show in preview mode                    ok 2h
+- Click on image in preview mode                                ok 30 mins
+- Clikc on gridview and show the preview mode                   ok 30 mins

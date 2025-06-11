@@ -6,11 +6,12 @@
     <div class="w-full h-full overflow-scroll">
       <StackedList :data="data" class="h-full w-full" v-if="viewMode === 'stacked'" v-model:selectMode="selectMode"
         @event="onEvent" />
-      <GridView class="w-full p-4" v-if="viewMode === 'grid'" v-model:selectMode="selectMode" :data="data" />
+      <GridView class="w-full p-4" v-if="viewMode === 'grid'" v-model:selectMode="selectMode" :data="data" @event="onEvent" />
     </div>
+    <ResizablePanel v-if="previewItem && previewMode" class="flex relative">
+      <PreviewPanel @event="onEvent" :fileManager="fileManager" :previewMode="previewMode" />
+    </ResizablePanel>
 
-    <PreviewPanel v-if="previewItem" @event="onEvent" :fileManager="fileManager"
-      :previewMode="previewMode" :class="{ 'w-lg': previewMode, 'w-0 translate-x-full': !previewMode }" />
   </main>
 </template>
 
@@ -21,6 +22,7 @@ import HeaderContent from "./headerContent/HeaderContent.vue";
 import StackedList from "./stackedList/StackedList.vue";
 import { ContentType, FolderType } from "../../mainHandler/types";
 import PreviewPanel from "../previewPanel/PreviewPanel.vue";
+import ResizablePanel from "../previewPanel/ResizablePanel.vue";
 
 const emit = defineEmits(["event"]);
 const props = defineProps({

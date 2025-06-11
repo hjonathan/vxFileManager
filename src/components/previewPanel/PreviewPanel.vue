@@ -1,7 +1,7 @@
 <template>
   <!-- right-0 top-0 absolute // for floating panel -->
   <aside
-    class="flex flex-col bg-white  h-full
+    class="flex flex-col bg-white w-full h-full
        border-r border-black/10 transition-transform duration-300 ease-in-out overflow-hidden border-l border-gray-200">
     <header @click="isExpanded = !isExpanded"
       class="flex items-center justify-between border-b border-white/5 px-4 py-4 hover:cursor-pointer">
@@ -67,6 +67,8 @@ const typeComputed = computed(() => {
     return 'pdf'
   } else if (previewItem?.value?.type === 'Word Document') {
     return 'doc'
+  } else if (previewItem?.value?.type === '**MIME_DES_JPEG**' || previewItem?.value?.type === 'PNG Picture' || previewItem?.value?.type === 'JPG Picture') {
+    return 'image'
   }
 })
 
@@ -77,6 +79,8 @@ const dataComputed = computed(() => {
     console.log('previewItem.value.downloadLink', window.location.href + previewItem.value.downloadLink)
     return  urlFormat(previewItem.value.downloadLink)
   } else if (previewItem?.value?.type === 'Word Document') {
+    return urlFormat(previewItem.value.downloadLink)
+  } else if (previewItem?.value?.type === '**MIME_DES_JPEG**' || previewItem?.value?.type === 'PNG Picture' || previewItem?.value?.type === 'JPG Picture') {
     return urlFormat(previewItem.value.downloadLink)
   }
 })

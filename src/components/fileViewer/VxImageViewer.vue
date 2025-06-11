@@ -22,7 +22,7 @@
       <div class="flex h-full w-full overflow-auto relative justify-center items-center" ref="imageContainer" @wheel="handleWheel">
         <div class="flex justify-center items-start"
           :style="{ transform: `scale(${scale})` }">
-          <img :src="imageSrc" 
+          <img :src="data" 
                @load="onImageLoad" 
                :style="{ 
                  maxHeight: '80vh',
@@ -46,7 +46,7 @@ import {
 } from '@heroicons/vue/24/outline'
 
 const props = defineProps({
-  imageSrc: {
+  data: {
     type: String,
     required: true
   }
