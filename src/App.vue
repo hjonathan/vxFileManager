@@ -182,10 +182,10 @@
       </div>
     </div>
 
-    <Sidebar class="border-r border-gray-200" @event="onEvent" v-model:data="dataNavigator" />
+    <Sidebar :key="keyRefresh" class="border-r border-gray-200" @event="onEvent" v-model:data="dataNavigator" />
 
     <div class="flex flex-col h-full w-full overflow-hidden">
-      <MainContent class="w-full h-full relative overflow-hidden" :data="dataContentMain" @event="onEvent"
+      <MainContent :key="keyRefresh" class="w-full h-full relative overflow-hidden" :data="dataContentMain" @event="onEvent"
         :fileManager="fileManager" />
     </div>
   </div>
@@ -204,12 +204,30 @@ const dataNavigator = ref([])
 const fileManager = useFileManager()
 
 const { setHistory } = fileManager
-
+const keyRefresh = ref(0)
 
 const onClickExpandFolder = (event) => {
   console.log('onLoadFolder', event)
 }
 
+
+const updateNavigator = async () => {
+  const response = await expandHomeHandler()
+  dataNavigator.value = response
+}
+
+const updateContentMain = async (event) => {
+  const response = await getFolderContent(event?.data?.value)
+  dataContentMain.value = response.items
+}
+
+const refreshNavigator = async () => {
+  await updateNavigator()
+  await updateContentMain()
+
+  // Update the key to refresh the components
+  keyRefresh.value++
+}
 
 /**
  * Click on a folder to get the content
@@ -239,6 +257,7 @@ const events = {
   'get-content': onClickGetContent,
   'toogle-view-mode': fileManager.toogleViewMode,
   'toogle-preview-mode': fileManager.tooglePreviewMode,
+  'refresh-navigator': refreshNavigator,
   'close-preview-mode': () => {
     fileManager.setPreviewMode(false)
   },
@@ -258,14 +277,9 @@ provide('provider', {
   expandHomeHandler: expandHomeHandler,
   getFolderContent: getFolderContent
 })
+
 onMounted(async () => {
-  const response = await expandHomeHandler()
-  dataNavigator.value = response
-
-  const responseFiles = await getFolderContent()
-
-  console.log('responseFiles', responseFiles)
-
-  dataContentMain.value = responseFiles.items
+  await updateNavigator()
+  await updateContentMain()
 })
 </script>

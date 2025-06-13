@@ -16,10 +16,14 @@ const props = defineProps({
   enable: {
     type: Boolean,
     default: false
+  },
+  defaultExpanded: {
+    type: Boolean,
+    default: false
   }
 })
 
-const isExpanded = ref(false)
+const isExpanded = ref(props.defaultExpanded)
 
 const toggleExpanded = () => {
   isExpanded.value = !isExpanded.value

@@ -38,3 +38,4 @@ Navigator
  - Preview Mode Modal                                           ok 1h
  - Highlight in current Directory                               ok 45 mins
  - Chevron should disappear when the folder has not content     ok 20 mins
+ - Refresh in Navigator                                         ok 20 mins

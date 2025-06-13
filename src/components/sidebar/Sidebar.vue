@@ -12,9 +12,6 @@
           <li>
             <HomeBaseSection v-model:items="data" title="Navigator" @event="onEvent" :enable="true" />
           </li>
-          <li>
-            <HomeBaseSection :items="projects" title="Projects" />
-          </li>
           <li class="-mx-6 mt-auto">
             <a href="#" class="flex items-center gap-x-4 px-6 py-3 text-sm/6 font-semibold text-white hover:bg-gray-800">
               <img class="size-8 rounded-full bg-gray-800" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
@@ -63,39 +60,6 @@ const baseItems = ref([
   {
     name: 'Trash',
     icon: TrashIcon,
-  },
-])
-
-const favorites = ref([
-  {
-    name: 'Planetaria',
-    type: "folder",
-    id: "1",
-    total:10,
-  },
-  {
-    name: 'Protocol',
-    type: "folder",
-    id: "2",
-    total:12,
-  },
-  {
-    name: 'Tailwind Labs',
-    type: "folder",
-    id: "3",
-    total:0,
-  },
-])
-
-const projects = ref([
-  {
-    name: 'Project 1',
-  },
-  {
-    name: 'Project 2',
-  },
-  {
-    name: 'Project 3',
   },
 ])
 
