@@ -2,17 +2,17 @@
   <ExpansionPanel>
     <template #header="{ isExpanded, toggleExpanded }">
       <div class="flex w-full items-center justify-start">
-        <svg @click.self.prevent.stop="() => {
+        <svg v-if="isExpandable" @click.prevent.stop="() => {
             toggleExpanded();
             onClickExpand();
         }"
-          class="w-5 h-5 hover:cursor-pointer hover:bg-gray-100 rounded-full transition-transform duration-200"
+          class="w-6 h-6 hover:cursor-pointer hover:bg-gray-100 rounded-full transition-transform duration-200"
           :class="{ '-rotate-90': !isExpanded }" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd"
             d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
             clip-rule="evenodd" />
         </svg>
-        <!-- <span v-else class="w-5 h-5">&nbsp;</span> -->
+        <span v-else class="w-6 h-6">&nbsp;</span>
         <a 
           @click.prevent.stop="onClickGetContent"
           :class="{ 'text-blue-500': item.active }"
@@ -43,12 +43,11 @@ const item = defineModel('item', {
   type: FolderType,
   required: true,
 })
-
 const emit = defineEmits(['event'])
-
 const { expandHomeHandler } = inject('provider')
-
 const data = ref([])
+
+const isExpandable = ref(true)
 
 const onClickExpand = async () => {
   emit('event', {
@@ -57,6 +56,10 @@ const onClickExpand = async () => {
   })
 
   data.value = await expandHomeHandler({data: item.value})
+
+  if(data.value.length === 0) {
+    isExpandable.value = false
+  }
 }
 
 const onClickGetContent = () => {
