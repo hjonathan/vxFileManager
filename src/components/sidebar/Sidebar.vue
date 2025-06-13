@@ -10,7 +10,7 @@
             <BaseSection :items="baseItems"/>
           </li>
           <li>
-            <HomeBaseSection :items="data" title="Navigator" @event="onEvent" :enable="true" />
+            <HomeBaseSection v-model:items="data" title="Navigator" @event="onEvent" :enable="true" />
           </li>
           <li>
             <HomeBaseSection :items="projects" title="Projects" />
@@ -42,11 +42,9 @@ import {
 
 const emit = defineEmits(['event'])
 
-const props = defineProps({
-  data: {
-    type: Array,
-    required: true,
-  },
+const data = defineModel('data', {
+  type: Array,
+  required: true,
 })
 
 const baseItems = ref([

@@ -17,18 +17,19 @@ export const expandHomeHandler = async (event) => {
   return folders;
 };
 
-export const getFolderHandler = async (event) => {
-  console.log('getFolderHandler', event)
+export const getFolderContent = async (data) => {
+  const params = new URLSearchParams();
+  params.append('start', '0');
+  params.append('limit', '25');
+  params.append('dir', !data ? 'root' : data.id);
+  params.append('node', !data ? 'root' : data.id);
+  params.append('option', 'gridDocuments');
+  params.append('action', 'expandNode');
+  params.append('sendWhat', 'both');
 
-  const [folders, files] = await Promise.all([
-    expandHomeHandler(event),
-    getFilesHandler(event)
-  ]);
-
-  console.log('folders', folders)
-  console.log('files', files)
-
-  return [...folders, ...files.items]
+  
+  const content = await getFolders({params});
+  return content;
 
 };
 

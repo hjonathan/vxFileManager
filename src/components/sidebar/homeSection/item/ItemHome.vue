@@ -14,8 +14,9 @@
         </svg>
         <!-- <span v-else class="w-5 h-5">&nbsp;</span> -->
         <a 
-          @click.prevent.stop="onClickGetFolder"
-        class="group flex w-full gap-x-3 rounded-md px-2 py-1 text-sm/6 font-semibold text-gray-400 hover:bg-gray-100 hover:cursor-pointer truncate">
+          @click.prevent.stop="onClickGetContent"
+          :class="{ 'text-blue-500': item.active }"
+          class="group flex w-full gap-x-3 rounded-md px-2 py-1 text-sm/6 font-semibold hover:bg-gray-100 hover:cursor-pointer truncate">
           <FolderIconVx class="size-6 shrink-0" />
           <span class="truncate">{{ item.name }}</span>
         </a>
@@ -38,33 +39,30 @@ import { FolderType } from '../../../../mainHandler/types'
 import {FolderIconVx, DocumentIconVx} from '../../../icons/index'
 
 
-const props = defineProps({
-  item: {
-    type: FolderType,
-    required: true,
-  },
+const item = defineModel('item', {
+  type: FolderType,
+  required: true,
 })
 
 const emit = defineEmits(['event'])
 
-const { expandHomeHandler, getFolderHandler } = inject('provider')
+const { expandHomeHandler } = inject('provider')
 
 const data = ref([])
 
 const onClickExpand = async () => {
   emit('event', {
     type: "expand-folder",
-    data: props.item
+    data: item
   })
 
-  data.value = await expandHomeHandler({data: props.item})
+  data.value = await expandHomeHandler({data: item.value})
 }
 
-const onClickGetFolder = () => {
-  console.log('onClickGetFolder', props.item)
+const onClickGetContent = () => {
   emit('event', {
     type: "get-content",
-    data: props.item
+    data: item
   })
 }
 

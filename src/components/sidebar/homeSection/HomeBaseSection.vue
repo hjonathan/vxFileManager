@@ -15,8 +15,8 @@
     </template>
     <template #content>
       <ul role="list" class="-mx-2">
-        <li v-for="item in items" :key="item.name">
-          <ItemHome :item="item" @event="onEvent" />
+        <li v-for="(item, index) in items" :key="index">
+          <ItemHome v-model:item="items[index]" @event="onEvent" />
         </li>
       </ul>
     </template>
@@ -36,18 +36,13 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  items: {
-    type: Array,
-    required: true,
-    props: {
-      name: {
-        type: String,
-        required: true,
-      },
-    },
-  },
 })
 const emit = defineEmits(['event'])
+
+const items = defineModel('items', {
+  type: Array,
+  required: true,
+})
 
 const onEvent = (event) => {
   emit('event', event)

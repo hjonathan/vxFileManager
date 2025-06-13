@@ -1,21 +1,3 @@
-
-Navigator
- - Create Initial UI                                            ok 4h
- - Load form data fake                                          ok 1h
- - UI expandable                                                ok  1h
- - Click in folder to load content - data                       ok 1h
- - Modified Item List                                           ok 1h
- - Show to main content the load content -stackedlist           ok 1h
- - Generate documents with fake extensions                      ok 1h
- - Remove rounded from icons                                    ok 10mins
- - Add pretty icons to folder and documents                     ok 10mins
- - Icons to Navigator                                           ok 10mins
- - Simple PDF viewer                                            ok 1h
- - Simple Doc viewer                                            ok 2h
- - Change of view from button                                   ok 2h
- - Preview Mode Modal                                           ok 1h
-
-
 PREVIEW Mode
  - Image viewer                                                 ok 1h
  
@@ -37,3 +19,21 @@ CONTENT MAIN
 - Click on pdf, doc and show in preview mode                    ok 2h
 - Click on image in preview mode                                ok 30 mins
 - Clikc on gridview and show the preview mode                   ok 30 mins
+
+
+Navigator
+ - Create Initial UI                                            ok 4h
+ - Load form data fake                                          ok 1h
+ - UI expandable                                                ok  1h
+ - Click in folder to load content - data                       ok 1h
+ - Modified Item List                                           ok 1h
+ - Show to main content the load content -stackedlist           ok 1h
+ - Generate documents with fake extensions                      ok 1h
+ - Remove rounded from icons                                    ok 10mins
+ - Add pretty icons to folder and documents                     ok 10mins
+ - Icons to Navigator                                           ok 10mins
+ - Simple PDF viewer                                            ok 1h
+ - Simple Doc viewer                                            ok 2h
+ - Change of view from button                                   ok 2h
+ - Preview Mode Modal                                           ok 1h
+ - Highlight in current Directory                               ok 45 mins

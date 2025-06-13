@@ -20,6 +20,47 @@ export const useFileManager = () => {
   const setPreviewItem = (item) => {
     previewItem.value = item
   }
+  
+  // Current Item selected
+  const currentItem = ref(null)
+
+  const setCurrentItem = (item) => {
+    currentItem.value = item
+  }
+  const getCurrentItem = () => {
+    return currentItem.value
+  }
+
+  // Last Item selected
+  const lastItem = ref(null)
+
+  const setLastItem = (item) => {
+    lastItem.value = item
+  }
+
+  const getLastItem = () => {
+    return lastItem.value
+  }
+
+
+  // History functions
+  const history = ref([])
+
+  const setHistory = (item) => {
+    history.value.push(item)
+  }
+
+  const getHistory = () => {
+    return history.value
+  }
+
+  const getHistoryByIndex = (index) => {
+    return history.value[index]
+  }
+
+  const getHistoryByPath = (path) => {
+    return history.value.find(item => item.path === path)
+  }
 
   return {
     viewMode,
@@ -28,6 +69,17 @@ export const useFileManager = () => {
     setPreviewMode,
     tooglePreviewMode,
     previewItem,
-    setPreviewItem
+    setPreviewItem,
+    history,
+    setHistory,
+    getHistory,
+    getHistoryByIndex,
+    getHistoryByPath,
+    lastItem,
+    setLastItem,
+    getLastItem,
+    currentItem,
+    setCurrentItem,
+    getCurrentItem
   }
 }
