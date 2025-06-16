@@ -181,12 +181,13 @@
         </div>
       </div>
     </div>
-
-    <Sidebar :key="keyRefresh" class="border-r border-gray-200" @event="onEvent" v-model:data="dataNavigator" />
+    <ResizablePanel class="flex relative border-r border-gray-200" position="left" :w="300" :minw="200" :maxw="400">
+      <Sidebar :key="keyRefresh" @event="onEvent" v-model:data="dataNavigator" />
+    </ResizablePanel>
 
     <div class="flex flex-col h-full w-full overflow-hidden">
-      <MainContent :key="keyRefresh" class="w-full h-full relative overflow-hidden" :data="dataContentMain" @event="onEvent"
-        :fileManager="fileManager" />
+      <MainContent :key="keyRefresh" class="w-full h-full relative overflow-hidden" :data="dataContentMain"
+        @event="onEvent" :fileManager="fileManager" />
     </div>
   </div>
 </template>
@@ -197,6 +198,7 @@ import Sidebar from './components/sidebar/Sidebar.vue'
 import MainContent from './components/mainContent/MainContent.vue'
 import { expandHomeHandler, getFolderContent } from './mainHandler/folderHandler'
 import { useFileManager } from './components/composable/FileManager'
+import ResizablePanel from './components/previewPanel/ResizablePanel.vue'
 
 const dataContentMain = ref([])
 const dataNavigator = ref([])
@@ -245,7 +247,7 @@ const onClickGetContent = async (event) => {
   }
   fileManager.setLastItem(currentItem)
   event.data.value.active = true
-  
+
   fileManager.setCurrentItem(event.data)
 
   // Update the navigator history

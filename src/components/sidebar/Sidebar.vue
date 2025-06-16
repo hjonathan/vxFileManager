@@ -1,8 +1,8 @@
 <template>
   <!-- Static sidebar for desktop -->
-  <div class="hidden xl:inset-y-0 xl:z-50 xl:flex xl:w-72 xl:flex-col text-gray-500 overflow-scroll">
+  <div class="w-full flex flex-col text-gray-500">
     <!-- Sidebar component, swap this element with another sidebar if you like -->
-    <div class="flex grow flex-col gap-y-5 overflow-y-auto px-6 ring-1 ring-white/5">
+    <div class="flex grow flex-col gap-y-5 pl-4 pr-2 ring-1 ring-white/5">
       <HeaderSidebar />
       <nav class="flex flex-1 flex-col">
         <ul role="list" class="flex flex-1 flex-col gap-y-7">
