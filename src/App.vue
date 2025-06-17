@@ -186,7 +186,7 @@
     </ResizablePanel>
 
     <div class="flex flex-col h-full w-full overflow-hidden">
-      <MainContent :key="keyRefresh" class="w-full h-full relative overflow-hidden" :data="dataContentMain"
+      <MainContent :key="keyRefresh" class="w-full h-full relative overflow-hidden" v-model:data="dataContentMain"
         @event="onEvent" :fileManager="fileManager" />
     </div>
   </div>
@@ -236,22 +236,48 @@ const refreshNavigator = async () => {
  * @param {*} event ref variable (Its necessary to use .value to get the value of the ref)
  */
 const onClickGetContent = async (event) => {
+
+  const itemSelected = event.data?.value ?? event.data
+
   // Get the content of the folder
-  const response = await getFolderContent(event.data.value)
+  const response = await getFolderContent(itemSelected)
   dataContentMain.value = response.items
 
   // Update the last item
   const currentItem = fileManager.getCurrentItem();
   if (currentItem) {
-    currentItem.value.active = false
+    currentItem.active = false
   }
   fileManager.setLastItem(currentItem)
-  event.data.value.active = true
+  itemSelected.active = true
 
-  fileManager.setCurrentItem(event.data)
+  fileManager.setCurrentItem(itemSelected)
 
   // Update the navigator history
-  setHistory(event.data)
+  setHistory(itemSelected)
+}
+
+const goToDirectory = async (event) => {
+  const itemSelected = event.data?.value ?? event.data
+
+  // Get the content of the folder
+  const response = await getFolderContent(itemSelected)
+  dataContentMain.value = response.items
+
+  // Update the last item
+  const currentItem = fileManager.getCurrentItem();
+  if (currentItem) {
+    currentItem.active = false
+  }
+  fileManager.setLastItem(currentItem)
+
+  if (itemSelected) {
+    itemSelected.active = true
+  }
+  fileManager.setCurrentItem(itemSelected)
+
+  // Update the navigator history
+  fileManager.goTo(itemSelected)
 }
 
 const events = {
@@ -267,7 +293,9 @@ const events = {
     fileManager.setPreviewMode(true)
     console.log('open-preview-mode', event.data)
     fileManager.setPreviewItem(event.data)
-  }
+  },
+  'go-to-directory': goToDirectory
+
 }
 
 const onEvent = (event) => {

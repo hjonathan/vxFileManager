@@ -4,15 +4,16 @@
 
   <main class="flex w-full relative h-full overflow-hidden">
     <div class="w-full h-full overflow-scroll">
-      <StackedList :data="data" class="h-full w-full" v-if="viewMode === 'stacked'" v-model:selectMode="selectMode"
+      <StackedList v-model:data="data" class="h-full w-full" v-if="viewMode === 'stacked'" v-model:selectMode="selectMode"
         @event="onEvent" />
-      <GridView class="w-full p-4" v-if="viewMode === 'grid'" v-model:selectMode="selectMode" :data="data" @event="onEvent" />
+      <GridView v-model:data="data" class="w-full p-4" v-if="viewMode === 'grid'" v-model:selectMode="selectMode" @event="onEvent" />
     </div>
-    <ResizablePanel v-if="previewItem && previewMode" class="flex relative" :w="700" :minw="200" :maxw="1000">
+    <ResizablePanel v-if="previewItem && previewMode" class="flex relative" :w="1000" :minw="200" :maxw="1500">
       <PreviewPanel @event="onEvent" :fileManager="fileManager" :previewMode="previewMode" />
     </ResizablePanel>
 
   </main>
+
 </template>
 
 <script setup>
@@ -23,18 +24,20 @@ import StackedList from "./stackedList/StackedList.vue";
 import { ContentType, FolderType } from "../../mainHandler/types";
 import PreviewPanel from "../previewPanel/PreviewPanel.vue";
 import ResizablePanel from "../previewPanel/ResizablePanel.vue";
+import NavigationBar from "../navbar/NavigationBar.vue";
 
 const emit = defineEmits(["event"]);
 const props = defineProps({
-  data: {
-    type: Array,
-    required: true,
-    props: [ContentType, FolderType],
-  },
   fileManager: {
     type: Object,
     required: true,
   },
+});
+
+const data = defineModel('data', {
+  type: Array,
+  required: true,
+  props: [ContentType, FolderType],
 });
 
 const { viewMode, previewMode, previewItem } = props.fileManager;

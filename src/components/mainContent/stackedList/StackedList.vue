@@ -1,7 +1,7 @@
 <template>
   <ul role="list"
     class="divide-y divide-gray-100 bg-white shadow-xs ring-1 ring-gray-900/5 sm:rounded-xl">
-    <StackedItem v-for="item in data" :key="item.name" :data="item" @click="handleClick(item)">
+    <StackedItem v-for="(item, index) in data" :key="item.name" :data="item" @click="handleClick(item, index)">
       <template #select v-if="selectMode">
         <div class="group grid size-4 grid-cols-1">
           <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" checked=""
@@ -32,24 +32,22 @@ import { ContentType, FolderType } from '../../../mainHandler/types'
 const selectMode = defineModel('selectMode')
 
 const emit = defineEmits(['event'])
-const props = defineProps({
-  data: {
-    type: Array,
-    required: true,
-    props: [ContentType, FolderType]
-  }
+const data = defineModel('data', {
+  type: Array,
+  required: true,
+  props: [ContentType, FolderType]
 })
 
 const clicks = ref(0);
 const delay = 200;
 
 
-const onDoubleClickStage = (item) => {
+const onDoubleClickStage = (item, index) => {
   console.log('onClickItem', item)
   if (item.type === 'Directory') {
     emit('event', {
       type: 'get-content',
-      data: item
+      data: data.value[index]
     })
     emit('event', {
       type: 'close-preview-mode',
@@ -57,21 +55,21 @@ const onDoubleClickStage = (item) => {
   }
 }
 
-const onClickItem = (item) => {
+const onClickItem = (item, index) => {
   emit('event', {
     type: 'open-preview-mode',
-    data: item
+    data: data.value[index]
   })
 }
 
-const handleClick = (item) => {
+const handleClick = (item, index) => {
   clicks.value += 1;
   if (clicks.value === 1) {
     setTimeout(() => {
       if (clicks.value === 1) {
-        onClickItem(item)
+        onClickItem(item, index)
       } else if (clicks.value === 2) {
-        onDoubleClickStage(item)
+        onDoubleClickStage(item, index)
       }
       clicks.value = 0;
     }, delay);

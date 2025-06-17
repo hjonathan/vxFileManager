@@ -34,11 +34,9 @@
 <script setup>
 import { ContentType, FolderType } from '../../../mainHandler/types'
 
-const props = defineProps({
-  data: {
-    type: [ContentType, FolderType],
-    required: true
-  }
+const data = defineModel('data', {
+  type: [ContentType, FolderType],
+  required: true
 })
 </script>
 

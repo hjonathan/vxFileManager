@@ -20,11 +20,9 @@ import ItemView from './ItemView.vue'
 import { ContentType, FolderType } from '../../../mainHandler/types'
 import GridIcon from './GridIcon.vue'
 
-const props = defineProps({
-  data: {
-    type: [ContentType, FolderType],
-    required: true
-  }
+const data = defineModel('data', {
+  type: [ContentType, FolderType],
+  required: true
 })
 
 const emit = defineEmits(['event'])

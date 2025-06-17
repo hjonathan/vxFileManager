@@ -50,6 +50,18 @@ export const useFileManager = () => {
     history.value.push(item)
   }
 
+  const goTo = (item) => {
+    if (!item) {
+      history.value = []
+      return
+    }
+
+    const index = history.value.findIndex(i => i.id === item.id)
+    if (index !== -1) {
+      history.value = history.value.slice(0, index + 1)
+    }
+  }
+
   const getHistory = () => {
     return history.value
   }
@@ -80,6 +92,7 @@ export const useFileManager = () => {
     getLastItem,
     currentItem,
     setCurrentItem,
-    getCurrentItem
+    getCurrentItem,
+    goTo
   }
 }

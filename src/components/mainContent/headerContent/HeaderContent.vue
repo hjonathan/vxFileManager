@@ -2,13 +2,8 @@
   <nav class="bg-white shadow-sm sticky top-0 z-50">
     <div class="mx-auto px-4">
       <div class="flex h-16 justify-between">
-        <div class="flex px-2 lg:px-0">
-          <div class="hidden lg:ml-6 lg:flex lg:space-x-8">
-            <div class="flex min-w-0 items-center">
-              <h2 class="truncate text-base/7 font-semibold"><a
-                  href="#component-11e5dbce11b8c462441792503ea864fc">Folder test</a></h2>
-            </div>
-          </div>
+        <div class="flex py-4">
+          <NavigationBar :fileManager="fileManager" @event="e => emit('event', e)" />
         </div>
         <div class="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
           <HeaderSearch class="w-60" />
@@ -53,11 +48,11 @@
             <Cog6ToothIcon class="size-6" />
           </ButtonIcon>
 
-          <ButtonIcon @click="emit('event', { type: 'toogle-view-mode'})">
+          <ButtonIcon @click="emit('event', { type: 'toogle-view-mode' })">
             <ViewColumnsIcon class="size-6" :class="{ 'text-indigo-500': viewMode === 'grid' }" />
           </ButtonIcon>
 
-          <ButtonIcon @click="emit('event', { type: 'toogle-preview-mode'})">
+          <ButtonIcon @click="emit('event', { type: 'toogle-preview-mode' })">
             <InformationCircleIcon class="size-6" :class="{ 'text-indigo-500': previewMode }" />
           </ButtonIcon>
 
@@ -155,6 +150,7 @@
 import { BellIcon, UserIcon, Cog6ToothIcon, ViewColumnsIcon, InformationCircleIcon } from '@heroicons/vue/24/outline'
 import HeaderSearch from './HeaderSearch.vue'
 import ButtonIcon from './ButtonIcon.vue'
+import NavigationBar from '../../navbar/NavigationBar.vue'
 
 const emit = defineEmits(['event'])
 
@@ -167,5 +163,3 @@ const props = defineProps({
 
 const { viewMode, previewMode } = props.fileManager
 </script>
-
-<style scoped></style>
