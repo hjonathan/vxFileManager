@@ -11,37 +11,37 @@
       <XMarkIcon class="size-5 flex-none" @click="onEvent({ type: 'close-preview-mode' })" />
     </header>
 
-    <FolderPreview v-if="previewItem && previewItem.type == 'Directory'" :data="dataComputed" class="h-[50%]" />
 
-    <div v-else="previewItem && previewItem.type !== 'Directory'" class="flex flex-1 flex-col items-center gap-y-4 h-full">
-      <component :is="componentsFactory[typeComputed]" :data="dataComputed" class="h-[50%]" />
+    <div v-if="previewItem"  class="flex flex-1 flex-col items-center gap-y-4 h-full">
+      <FolderIconVx  v-if="previewItem.type == 'Directory'" class="size-40 flex-none" />
+      <component v-else :is="componentsFactory[typeComputed]" :data="dataComputed" class="h-[50%]" />
 
 
       <dl class="mt-1 flex flex-col space-y-2  w-full px-4 font-medium text-gray-500">
 
-        <span class="flex flex-col justify-start">
+        <span class="flex flex-col justify-start" v-if="previewItem?.name">
           <span class="text-emerald-500">Name</span>
-          <span>{{ previewItem.name }}</span>
+          <span>{{ previewItem?.name }}</span>
         </span>
 
-        <span class="flex flex-col justify-start">
+        <span class="flex flex-col justify-start" v-if="previewItem?.appDocCreateDate">
           <span class="text-emerald-500">Updated at</span>
-          <span>{{ previewItem.appDocCreateDate }}</span>
+          <span>{{ previewItem?.appDocCreateDate }}</span>
         </span>
 
-        <span class="flex flex-col justify-start">
+        <span class="flex flex-col justify-start" v-if="previewItem?.appDocTags">
           <span class="text-emerald-500">Tag</span>
-          <span>{{ previewItem.appDocTags }}</span>
+          <span>{{ previewItem?.appDocTags }}</span>
         </span>
 
-        <span class="flex flex-col justify-start">
+        <span class="flex flex-col justify-start" v-if="previewItem?.owner">
           <span class="text-emerald-500">Owner</span>
-          <span>{{ previewItem.owner }}</span>
+          <span>{{ previewItem?.owner }}</span>
         </span>
 
-        <span class="flex flex-col justify-start">
+        <span class="flex flex-col justify-start" v-if="previewItem?.type">
           <span class="text-emerald-500">Type</span>
-          <span>{{ previewItem.type }}</span>
+          <span>{{ previewItem?.type }}</span>
         </span>
       </dl>
     </div>
@@ -50,7 +50,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import FolderPreview from './previews/FolderPreview.vue'
+import { FolderIconVx } from '../icons/index'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 import VxPdfViewer from './fileViewer/VxPdfViewer.vue'
 import VxDocViewer from './fileViewer/VxDocViewer.vue'
@@ -67,13 +67,10 @@ const props = defineProps({
 })
 
 const componentsFactory = {
-  'directory': FolderPreview,
   'doc': VxDocViewer,
   'image': VxImageViewer,
   'pdf': VxPdfViewer,
-  // 'Audio': VxAudioViewer
 }
-console.log('previewItem', props.fileManager)
 
 const { previewItem } = props.fileManager
 const pdfFile = ref('http://localhost:8100/sysworkflow/en/lurana/cases/cases_ShowDocument?a=88922262668465b04bc71d7037241065&v=1&p=1')

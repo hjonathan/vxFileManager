@@ -11,15 +11,15 @@
           </a>
         </p>
         <p class="mt-1 flex text-xs/5 text-gray-500">
-          <a :href="'mailto:' + data.description"
-            class="relative truncate hover:underline">{{ data.type }}</a>
+          <a :href="'mailto:' + data.description" class="relative truncate hover:underline">{{ data.type }}</a>
         </p>
       </div>
     </div>
+
     <div class="flex shrink-0 items-center gap-x-4">
-      <div class="hidden sm:flex sm:flex-col sm:items-end">
-        <p class="text-sm/6 text-gray-900">{{ data?.lastModifiedBy }}</p>
-        <p class="mt-1 text-xs/5 text-gray-500">Last modified <time :datetime="data.lastModified">{{ data?.lastModified }}</time></p>
+      <div class="flex flex-col hidden sm:flex sm:flex-col sm:items-end">
+        <p class="mt-1 text-xs/5 text-gray-500"><time :datetime="data.lastModified">{{ data?.appDocCreateDate }}</time>
+        </p>
       </div>
       <svg class="size-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
         data-slot="icon">

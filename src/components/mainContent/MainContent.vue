@@ -8,7 +8,7 @@
         @event="onEvent" />
       <GridView class="w-full p-4" v-if="viewMode === 'grid'" v-model:selectMode="selectMode" :data="data" @event="onEvent" />
     </div>
-    <ResizablePanel v-if="previewItem && previewMode" class="flex relative" >
+    <ResizablePanel v-if="previewItem && previewMode" class="flex relative" :w="700" :minw="200" :maxw="1000">
       <PreviewPanel @event="onEvent" :fileManager="fileManager" :previewMode="previewMode" />
     </ResizablePanel>
 

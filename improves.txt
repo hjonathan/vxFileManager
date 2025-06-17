@@ -43,4 +43,4 @@ Navigator
 PREVIEW Mode
  - Image viewer                                                 ok 1h
  - Add extra information folder                                 ok 20mins
- - Add extra information file                                   ok 40 mins
+ - Add extra information file                                   ok 1h 30 mins
