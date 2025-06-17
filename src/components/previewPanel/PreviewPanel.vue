@@ -1,7 +1,7 @@
 <template>
   <!-- right-0 top-0 absolute // for floating panel -->
   <aside
-    class="flex flex-col bg-white w-full h-full
+    class="flex flex-col bg-white w-full h-full text-sm
        border-r border-black/10 transition-transform duration-300 ease-in-out overflow-hidden border-l border-gray-200">
     <header @click="isExpanded = !isExpanded"
       class="flex items-center justify-between border-b border-white/5 px-4 py-4 hover:cursor-pointer">
@@ -11,19 +11,40 @@
       <XMarkIcon class="size-5 flex-none" @click="onEvent({ type: 'close-preview-mode' })" />
     </header>
 
-    <!-- <FolderPreview :data="data" /> -->
+    <FolderPreview v-if="previewItem && previewItem.type == 'Directory'" :data="dataComputed" class="h-[50%]" />
 
-    <!-- <input type="file" @change="handleFileUpload" accept=".pdf" />
-    <input type="file" @change="handleDocFileUpload" accept=".doc,.docx" />
-    <input type="file" @change="handleImageFileUpload" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff,.ico,.webp" /> -->
-    <!-- <VxDocViewer v-if="docFile" :docSource="docFile" class="h-[50%]" />
-     
-      <VxImageViewer v-if="imageFile" :imageSrc="imageFile" class="h-[50%]" /> -->
+    <div v-else="previewItem && previewItem.type !== 'Directory'" class="flex flex-1 flex-col items-center gap-y-4 h-full">
+      <component :is="componentsFactory[typeComputed]" :data="dataComputed" class="h-[50%]" />
 
-    <component v-if="previewItem" :is="componentsFactory[typeComputed]" :data="dataComputed" class="h-[50%]"/>
 
-    <!-- <VxPdfViewer  :data="pdfFile" class="h-[50%]" /> -->
+      <dl class="mt-1 flex flex-col space-y-2  w-full px-4 font-medium text-gray-500">
 
+        <span class="flex flex-col justify-start">
+          <span class="text-emerald-500">Name</span>
+          <span>{{ previewItem.name }}</span>
+        </span>
+
+        <span class="flex flex-col justify-start">
+          <span class="text-emerald-500">Updated at</span>
+          <span>{{ previewItem.appDocCreateDate }}</span>
+        </span>
+
+        <span class="flex flex-col justify-start">
+          <span class="text-emerald-500">Tag</span>
+          <span>{{ previewItem.appDocTags }}</span>
+        </span>
+
+        <span class="flex flex-col justify-start">
+          <span class="text-emerald-500">Owner</span>
+          <span>{{ previewItem.owner }}</span>
+        </span>
+
+        <span class="flex flex-col justify-start">
+          <span class="text-emerald-500">Type</span>
+          <span>{{ previewItem.type }}</span>
+        </span>
+      </dl>
+    </div>
   </aside>
 </template>
 
@@ -31,9 +52,9 @@
 import { ref, computed } from 'vue'
 import FolderPreview from './previews/FolderPreview.vue'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
-import VxPdfViewer from '../fileViewer/VxPdfViewer.vue'
-import VxDocViewer from '../fileViewer/VxDocViewer.vue'
-import VxImageViewer from '../fileViewer/VxImageViewer.vue'
+import VxPdfViewer from './fileViewer/VxPdfViewer.vue'
+import VxDocViewer from './fileViewer/VxDocViewer.vue'
+import VxImageViewer from './fileViewer/VxImageViewer.vue'
 import { urlFormat } from '../utils/urlFormat'
 
 const emit = defineEmits(["event"]);
@@ -77,7 +98,7 @@ const dataComputed = computed(() => {
     return previewItem.value
   } else if (previewItem?.value?.type === 'PDF File') {
     console.log('previewItem.value.downloadLink', window.location.href + previewItem.value.downloadLink)
-    return  urlFormat(previewItem.value.downloadLink)
+    return urlFormat(previewItem.value.downloadLink)
   } else if (previewItem?.value?.type === 'Word Document') {
     return urlFormat(previewItem.value.downloadLink)
   } else if (previewItem?.value?.type === '**MIME_DES_JPEG**' || previewItem?.value?.type === 'PNG Picture' || previewItem?.value?.type === 'JPG Picture') {

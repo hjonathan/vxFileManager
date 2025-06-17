@@ -1,6 +1,4 @@
-PREVIEW Mode
- - Image viewer                                                 ok 1h
- 
+
 INTEGRATION LUOS
 - Environment installation                                     ok 6h
 - Get first list of luos be                                     ok 4h
@@ -40,3 +38,9 @@ Navigator
  - Chevron should disappear when the folder has not content     ok 20 mins
  - Refresh in Navigator                                         ok 20 mins
  - Resizable                                                    ok 3h
+
+
+PREVIEW Mode
+ - Image viewer                                                 ok 1h
+ - Add extra information folder                                 ok 20mins
+ - Add extra information file                                   ok 40 mins
