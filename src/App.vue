@@ -249,7 +249,9 @@ const onClickGetContent = async (event) => {
     currentItem.active = false
   }
   fileManager.setLastItem(currentItem)
-  itemSelected.active = true
+  if (itemSelected) {
+    itemSelected.active = true
+  }
 
   fileManager.setCurrentItem(itemSelected)
 
