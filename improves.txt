@@ -12,11 +12,13 @@ SIDEBAR
  - Resizable functionality                                      ok 20 mins
 
 
-CONTENT MAIN
-- Click on folder to expand the preview Mode                    ok 1h
-- Click on pdf, doc and show in preview mode                    ok 2h
-- Click on image in preview mode                                ok 30 mins
-- Clikc on gridview and show the preview mode                   ok 30 mins
+PREVIEW Mode
+ - Image viewer                                                 ok 1h
+ - Add extra information folder                                 ok 20mins
+ - Add extra information file                                   ok 1h 30 mins
+
+ NAVIGATOR BAR
+  - First template                                              ok 1h
 
 
 Navigator
@@ -38,12 +40,17 @@ Navigator
  - Chevron should disappear when the folder has not content     ok 20 mins
  - Refresh in Navigator                                         ok 20 mins
  - Resizable                                                    ok 3h
+ - check the current folder                                     ok 2h 30mins
 
 
-PREVIEW Mode
- - Image viewer                                                 ok 1h
- - Add extra information folder                                 ok 20mins
- - Add extra information file                                   ok 1h 30 mins
+CONTENT MAIN
+- Click on folder to expand the preview Mode                    ok 1h
+- Click on pdf, doc and show in preview mode                    ok 2h
+- Click on image in preview mode                                ok 30 mins
+- Clikc on gridview and show the preview mode                   ok 30 mins
+- Contextual menu                                               ok 2h
+- Abrir menu folder                                             ok 1h
+- Delete menu folder                                            ok 4.5h
+- Information menu folder                                       ok 5mins
 
- NAVIGATOR BAR
-  - First template                                              ok 1h
+- Create new folder                                             in progress

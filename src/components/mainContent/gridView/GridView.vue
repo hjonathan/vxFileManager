@@ -1,10 +1,7 @@
 <template>
-  <ul role="list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 p-4">
-    <ItemView v-for="item in data"
-      :key="item.name"
-      :data="item"
-      @click="handleClick(item)"
-      >
+  <ul role="list"
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 p-4">
+    <ItemView v-for="item in data" :key="item.name" :data="item" @click="handleClick(item)">
       <template #image>
         <GridIcon :item="item" />
       </template>
@@ -31,11 +28,10 @@ const clicks = ref(0);
 const delay = 200;
 
 const onDoubleClickStage = (item) => {
-  console.log('ondblClickItem', item)
   if (item.type === 'Directory') {
     emit('event', {
       type: 'get-content',
-      data: item
+      data: item,
     })
     emit('event', {
       type: 'close-preview-mode',

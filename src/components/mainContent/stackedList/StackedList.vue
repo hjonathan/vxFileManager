@@ -1,7 +1,8 @@
 <template>
   <ul role="list"
-    class="divide-y divide-gray-100 bg-white shadow-xs ring-1 ring-gray-900/5 sm:rounded-xl">
-    <StackedItem v-for="(item, index) in data" :key="item.name" :data="item" @click="handleClick(item, index)">
+    class="divide-y divide-gray-100 bg-white shadow-xs ring-1 ring-gray-900/5 sm:rounded-xl"
+    @contextmenu.prevent.stop="e=>handleContextMenu(e)">
+    <StackedItem v-for="(item, index) in data" :key="item.name" :data="item" @click="handleClick(item, index)" @contextmenu.prevent.stop="e=>handleContextMenu(e, item, index)">
       <template #select v-if="selectMode">
         <div class="group grid size-4 grid-cols-1">
           <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" checked=""
@@ -20,14 +21,22 @@
         <StackedIcon :item="item" />
       </template>
     </StackedItem>
+    <ContextualMenu
+      v-if="showContextMenu"
+      :event="event"
+      @item-click="e=>handleMenuItemClick(e, emit, itemContextMenu)"
+      @close="hideMenu"
+      :menu-items="menuOptionsBuilder(itemContextMenu)" />
   </ul>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 import StackedItem from './StackedItem.vue'
 import StackedIcon from './StackedIcon.vue'
 import { ContentType, FolderType } from '../../../mainHandler/types'
+import ContextualMenu from '../../ui/ContextualMenu/ContextualMenu.vue'
+import { handleMenuItemClick, menuOptionsBuilder, openDirectory, openPreviewMode } from '../MainContentHandler'
 
 const selectMode = defineModel('selectMode')
 
@@ -38,28 +47,33 @@ const data = defineModel('data', {
   props: [ContentType, FolderType]
 })
 
+const event = ref()
+const showContextMenu = ref(false)
 const clicks = ref(0);
 const delay = 200;
+const itemContextMenu = ref()
 
+const handleContextMenu = (e, item, index) => {
+  itemContextMenu.value =  data.value[index] ? data.value[index] : {type: 'content-main'}
+  e.preventDefault()
+  event.value = e
+  nextTick(() => {
+    showContextMenu.value = true
+  })
+}
+
+const hideMenu = () => {
+  showContextMenu.value = false
+}
 
 const onDoubleClickStage = (item, index) => {
-  console.log('onClickItem', item)
   if (item.type === 'Directory') {
-    emit('event', {
-      type: 'get-content',
-      data: data.value[index]
-    })
-    emit('event', {
-      type: 'close-preview-mode',
-    })
+    openDirectory(emit, data.value[index])
   }
 }
 
 const onClickItem = (item, index) => {
-  emit('event', {
-    type: 'open-preview-mode',
-    data: data.value[index]
-  })
+  openPreviewMode(emit, data.value[index])
 }
 
 const handleClick = (item, index) => {
@@ -76,5 +90,3 @@ const handleClick = (item, index) => {
   }
 };
 </script>
-
-<style scoped></style>

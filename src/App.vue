@@ -1,49 +1,10 @@
 <template>
-  <!--
-  This example requires updating your template:
-
-  ```
-  <html class="h-full bg-gray-900">
-  <body class="h-full">
-  ```
--->
   <div class="flex h-full w-full">
-    <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
     <div class="relative z-50 xl:hidden" role="dialog" aria-modal="true">
-      <!--
-      Off-canvas menu backdrop, show/hide based on off-canvas menu state.
-
-      Entering: "transition-opacity ease-linear duration-300"
-        From: "opacity-0"
-        To: "opacity-100"
-      Leaving: "transition-opacity ease-linear duration-300"
-        From: "opacity-100"
-        To: "opacity-0"
-    -->
       <div class="fixed inset-0 bg-gray-900/80" aria-hidden="true"></div>
 
       <div class="fixed inset-0 flex">
-        <!--
-        Off-canvas menu, show/hide based on off-canvas menu state.
-
-        Entering: "transition ease-in-out duration-300 transform"
-          From: "-translate-x-full"
-          To: "translate-x-0"
-        Leaving: "transition ease-in-out duration-300 transform"
-          From: "translate-x-0"
-          To: "-translate-x-full"
-      -->
         <div class="relative mr-16 flex w-full max-w-xs flex-1">
-          <!--
-          Close button, show/hide based on off-canvas menu state.
-
-          Entering: "ease-in-out duration-300"
-            From: "opacity-0"
-            To: "opacity-100"
-          Leaving: "ease-in-out duration-300"
-            From: "opacity-100"
-            To: "opacity-0"
-        -->
           <div class="absolute top-0 left-full flex w-16 justify-center pt-5">
             <button type="button" class="-m-2.5 p-2.5">
               <span class="sr-only">Close sidebar</span>
@@ -189,29 +150,32 @@
       <MainContent :key="keyRefresh" class="w-full h-full relative overflow-hidden" v-model:data="dataContentMain"
         @event="onEvent" :fileManager="fileManager" />
     </div>
+    <ModalFileManager v-model="showModal" :type="modalType" @event="onEvent" />
+
   </div>
 </template>
 
 <script setup>
-import { provide, inject, ref, onMounted } from 'vue'
+import { provide, ref, onMounted, nextTick } from 'vue'
 import Sidebar from './components/sidebar/Sidebar.vue'
 import MainContent from './components/mainContent/MainContent.vue'
-import { expandHomeHandler, getFolderContent } from './mainHandler/folderHandler'
+import { expandHomeHandler, getFolderContent, deleteFolderRequest, createFolderRequest } from './mainHandler/folderHandler'
 import { useFileManager } from './components/composable/FileManager'
 import ResizablePanel from './components/previewPanel/ResizablePanel.vue'
+import ModalFileManager from './components/modals/ModalFileManager.vue'
 
+//Variables
 const dataContentMain = ref([])
 const dataNavigator = ref([])
-
 const fileManager = useFileManager()
-
-const { setHistory } = fileManager
 const keyRefresh = ref(0)
 
-const onClickExpandFolder = (event) => {
-  console.log('onLoadFolder', event)
-}
+const showModal = ref(false)
+const modalType = ref(null)
 
+const closeModal = () => {
+  showModal.value = false
+}
 
 const updateNavigator = async () => {
   const response = await expandHomeHandler()
@@ -231,77 +195,143 @@ const refreshNavigator = async () => {
   keyRefresh.value++
 }
 
+const refreshCurrentFolder = async () => {
+  const currentFolder = fileManager.getLastHistory()
+  console.log("refreshCurrentFolder", currentFolder)
+  await updateDataContentMain(currentFolder)
+}
+
+const updateDataContentMain = async (itemSelected) => {
+  const response = await getFolderContent(itemSelected)
+  dataContentMain.value = response.items
+}
+
+const updateCurrentItem = (itemSelected) => {
+  // Update the last item
+  const currentItem = fileManager.getCurrentItem();
+
+  fileManager.setLastItem(currentItem)
+  fileManager.setCurrentItem(itemSelected)
+}
+
 /**
  * Click on a folder to get the content
  * @param {*} event ref variable (Its necessary to use .value to get the value of the ref)
  */
 const onClickGetContent = async (event) => {
-
   const itemSelected = event.data?.value ?? event.data
 
-  // Get the content of the folder
-  const response = await getFolderContent(itemSelected)
-  dataContentMain.value = response.items
-
-  // Update the last item
-  const currentItem = fileManager.getCurrentItem();
-  if (currentItem) {
-    currentItem.active = false
-  }
-  fileManager.setLastItem(currentItem)
-  if (itemSelected) {
-    itemSelected.active = true
-  }
-
-  fileManager.setCurrentItem(itemSelected)
-
-  // Update the navigator history
-  setHistory(itemSelected)
-}
-
-const goToDirectory = async (event) => {
-  const itemSelected = event.data?.value ?? event.data
-
-  // Get the content of the folder
-  const response = await getFolderContent(itemSelected)
-  dataContentMain.value = response.items
-
-  // Update the last item
-  const currentItem = fileManager.getCurrentItem();
-  if (currentItem) {
-    currentItem.active = false
-  }
-  fileManager.setLastItem(currentItem)
-
-  if (itemSelected) {
-    itemSelected.active = true
-  }
-  fileManager.setCurrentItem(itemSelected)
+  await updateDataContentMain(itemSelected)
+  updateCurrentItem(itemSelected)
 
   // Update the navigator history
   fileManager.goTo(itemSelected)
+
+  activateItemInNavigator(dataNavigator.value, itemSelected);
+}
+
+/**
+ * Find the item in the children and deactivate the other items
+ * @param items - The items to search in
+ * @param itemSelected - The item to search for
+ * @returns The item if found, otherwise null
+ */
+
+const activateItemInNavigator = (items, itemSelected) => {
+  for (const item of items) {
+    // Set active to false for all items first
+    item.active = false;
+    
+    // If this is the selected item, set it to active
+    if (item.id === itemSelected?.id) {
+      item.active = true;
+    }
+    
+    // Recursively process children if they exist
+    if (item.children?.length) {
+      activateItemInNavigator(item.children, itemSelected);
+    }
+  }
+  return null;
+}
+
+const goToDirectory = async (event) => {
+  fileManager.setPreviewMode(false)
+  const itemSelected = event.data?.value ?? event.data
+  await onClickGetContent(event);
+
+  activateItemInNavigator(dataNavigator.value, itemSelected);
+}
+
+const onClickExpandFolder = (event) => {
+  const itemSelected = fileManager.getLastHistory()
+
+  nextTick(() => {
+    activateItemInNavigator(dataNavigator.value, itemSelected);
+  })
+}
+
+const showDeleteFolderModal = async (event) => {
+  modalType.value = 'delete-folder'
+  fileManager.setSelectedItem(event.data)  
+  nextTick(() => {
+    showModal.value = true
+  })
+}
+
+const deleteFolder = async (event) => {
+  const itemSelected = fileManager.getSelectedItem()
+  deleteFolderRequest(itemSelected)
+  fileManager.setSelectedItem(null)
+  showModal.value = false
+
+  // Refresh the current folder
+  refreshCurrentFolder()
+}
+
+const showCreateFolderModal = async (event) => {
+  modalType.value = 'create-folder'
+
+  nextTick(() => {
+    showModal.value = true
+  })
+}
+
+const createFolder = async (event) => {
+  const currentFolder = fileManager.getLastHistory()
+
+  const response = await createFolderRequest({
+    folderId: currentFolder? currentFolder.id : 'root',
+    folderPath: fileManager.getCurrentPath(),
+    folderParentId: currentFolder? currentFolder.id : '/',
+    folderName: event.data.value
+  })
+  showModal.value = false
+
+  // Refresh the current folder
+  refreshCurrentFolder()
 }
 
 const events = {
   'expand-folder': onClickExpandFolder,
+  'show-delete-folder-modal': showDeleteFolderModal,
+  'show-create-folder-modal': showCreateFolderModal,
   'get-content': onClickGetContent,
   'toogle-view-mode': fileManager.toogleViewMode,
   'toogle-preview-mode': fileManager.tooglePreviewMode,
   'refresh-navigator': refreshNavigator,
-  'close-preview-mode': () => {
-    fileManager.setPreviewMode(false)
-  },
+  'close-preview-mode': () => fileManager.setPreviewMode(false),
   'open-preview-mode': (event) => {
     fileManager.setPreviewMode(true)
-    console.log('open-preview-mode', event.data)
-    fileManager.setPreviewItem(event.data)
+    fileManager.setSelectedItem(event.data)
   },
-  'go-to-directory': goToDirectory
-
+  'go-to-directory': goToDirectory,
+  'close-modal': closeModal,
+  'delete-folder': deleteFolder,
+  'create-folder': createFolder,
 }
 
 const onEvent = (event) => {
-  console.log('onEvent MAIN', event)
   events[event.type](event)
 }
 

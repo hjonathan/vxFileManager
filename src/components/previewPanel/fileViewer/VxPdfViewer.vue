@@ -53,8 +53,6 @@ const props = defineProps({
   }
 })
 
-console.log('data', props.data)
-
 const pdfCanvas = ref(null)
 const pdfContainer = ref(null)
 const scale = ref(1.0)

@@ -4,8 +4,6 @@
  * @returns {Promise} The response from the server
  */
 export const getFolders = async ({params}) => {
-
-  
     try {
       const response = await fetch('http://localhost:8100/sysworkflow/en/lurana/appFolder/appFolderAjax.php', {
         method: 'POST',
@@ -18,10 +16,10 @@ export const getFolders = async ({params}) => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
-      return await response.json();
+      const res = await response.json();
+      return res;
     } catch (error) {
       console.error('Error expanding node:', error);
-      throw error;
+      return null
     }
   } 

@@ -16,7 +16,7 @@
 <script setup>
 import { computed } from 'vue'
 import { ContentType, FolderType } from '../../../mainHandler/types'
-import {FolderIconVx, DocumentIconVx} from '../../icons/index'
+import {FolderIconVx, DocumentIconVx} from '../../ui/icons/index'
 
 const props = defineProps({
     item: {

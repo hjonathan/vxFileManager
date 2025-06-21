@@ -3,7 +3,7 @@ import { ref } from 'vue'
 export const useFileManager = () => {
   const viewMode = ref('stacked')  // Stacked, Grid
   const previewMode = ref(false)
-  const previewItem = ref(null)
+  const selectedItem = ref(null)
 
   const toogleViewMode = () => {
     viewMode.value = viewMode.value === 'stacked' ? 'grid' : 'stacked'
@@ -17,8 +17,12 @@ export const useFileManager = () => {
     previewMode.value = value
   }
 
-  const setPreviewItem = (item) => {
-    previewItem.value = item
+  const setSelectedItem = (item) => {
+    selectedItem.value = item
+  }
+
+  const getSelectedItem = () => {
+    return selectedItem.value
   }
   
   // Current Item selected
@@ -60,6 +64,10 @@ export const useFileManager = () => {
     if (index !== -1) {
       history.value = history.value.slice(0, index + 1)
     }
+
+    if(index === -1){
+      history.value.push(item)
+    }
   }
 
   const getHistory = () => {
@@ -70,8 +78,24 @@ export const useFileManager = () => {
     return history.value[index]
   }
 
-  const getHistoryByPath = (path) => {
-    return history.value.find(item => item.path === path)
+  const getLastHistory = () => {
+    return history.value[history.value.length - 1]
+  }
+  
+  const getCurrentPath = () => {
+    console.log("getCurrentPath", history.value)
+    if(history.value.length > 0){ 
+      const path = history.value.map(item => item.name).join('/')
+      return "/" + path
+    }
+    return '/'
+  }
+
+  const getParentCurrentFolder = () => {
+    if(history.value.length - 2 > 0){
+      return history.value[history.value.length - 2]
+    }
+    return null
   }
 
   return {
@@ -80,13 +104,16 @@ export const useFileManager = () => {
     previewMode,
     setPreviewMode,
     tooglePreviewMode,
-    previewItem,
-    setPreviewItem,
+    selectedItem,
+    setSelectedItem,
+    getSelectedItem,
     history,
     setHistory,
     getHistory,
     getHistoryByIndex,
-    getHistoryByPath,
+    getLastHistory,
+    getCurrentPath,
+    getParentCurrentFolder,
     lastItem,
     setLastItem,
     getLastItem,

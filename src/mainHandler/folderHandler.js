@@ -47,3 +47,35 @@ export const getFilesHandler = async (event) => {
   const files = await getFolders({params});
   return files;
 };
+
+export const deleteFolderRequest = async (item) => {
+  const params = new URLSearchParams();
+  params.append('option', 'directory');
+  params.append('dir', item.id);
+  params.append('item', item.id);
+  params.append('selitems[]', item.id);
+  params.append('action', 'delete');
+
+  const response = await getFolders({params});
+  return response;
+}
+
+export const createFolderRequest = async ({
+  folderPath,
+  folderId,
+  folderParentId,
+  folderName
+}) => {
+  const params = new URLSearchParams();
+params.append('option', 'new');
+params.append('action', 'appFolderSave');
+params.append('dir', folderId);
+params.append('confirm', 'true');
+params.append('FOLDER_PATH', folderPath);
+// params.append('form[FOLDER_UID]', id);
+params.append('form[FOLDER_PARENT_UID]', folderParentId);
+params.append('form[FOLDER_NAME]', folderName);
+
+const response = await getFolders({params});
+return response;
+}
