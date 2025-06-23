@@ -73,12 +73,11 @@ const componentsFactory = {
 }
 
 const { selectedItem } = props.fileManager
-const pdfFile = ref('http://localhost:8100/sysworkflow/en/lurana/cases/cases_ShowDocument?a=88922262668465b04bc71d7037241065&v=1&p=1')
+const pdfFile = ref()
 const docFile = ref()
 const imageFile = ref()
 
 const typeComputed = computed(() => {
-  console.log('selectedItem TYPE', selectedItem.value.type)
   if (selectedItem?.value?.type === 'Directory') {
     return 'directory'
   } else if (selectedItem?.value?.type === 'PDF File') {
@@ -94,7 +93,6 @@ const dataComputed = computed(() => {
   if (selectedItem?.value?.type === 'Directory') {
     return selectedItem.value
   } else if (selectedItem?.value?.type === 'PDF File') {
-    console.log('selectedItem.value.downloadLink', window.location.href + selectedItem.value.downloadLink)
     return urlFormat(selectedItem.value.downloadLink)
   } else if (selectedItem?.value?.type === 'Word Document') {
     return urlFormat(selectedItem.value.downloadLink)
@@ -102,28 +100,6 @@ const dataComputed = computed(() => {
     return urlFormat(selectedItem.value.downloadLink)
   }
 })
-
-const handleDocFileUpload = async (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const arrayBuffer = await file.arrayBuffer();
-    docFile.value = new Uint8Array(arrayBuffer);
-  }
-};
-
-const handleFileUpload = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    pdfFile.value = URL.createObjectURL(file);
-  }
-};
-
-const handleImageFileUpload = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    imageFile.value = [URL.createObjectURL(file)];
-  }
-};
 
 const onEvent = (event) => {
   emit('event', event)

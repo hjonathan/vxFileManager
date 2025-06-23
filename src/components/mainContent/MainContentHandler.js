@@ -46,13 +46,27 @@ export const createFolder = (emit, item) => {
   })
 }
 
-const handler = {
+export const refreshCurrentFolder = (emit, item) => {
+  emit('event', {
+    type: 'refresh-folder',
+  })
+}
+
+export const showUploadFilesModal = (emit, item) => {
+  emit('event', {
+    type: 'show-upload-files-modal',
+  })
+}
+
+const handlerContextualMenu = {
   open: openDirectory,
   delete: deleteItem,
   information: openPreviewMode,
   'create-folder': createFolder,
+  'refresh-folder': refreshCurrentFolder,
+  'upload-files': showUploadFilesModal,
 }
 
 export const handleMenuItemClick = (menuOption, emit, item) => {
-  handler[menuOption.id](emit, item)
+  handlerContextualMenu[menuOption.id](emit, item)
 }

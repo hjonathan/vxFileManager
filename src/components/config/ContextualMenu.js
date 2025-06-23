@@ -25,6 +25,14 @@ export const contentMainMenu =  ()=> {
       id: 'create-folder',
       label: 'Create Folder',
     },
+    { 
+      id: 'refresh-folder',
+      label: 'Refresh',
+    },
+    { 
+      id: 'upload-files',
+      label: 'Upload files',
+    },
   ]
 }
 

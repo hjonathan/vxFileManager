@@ -12,8 +12,8 @@ export const expandHomeHandler = async (event) => {
   params.append('sendWhat', 'dirs');
   params.append('renderTree', '1');
   params.append('node', !event ? 'root' : event.data.id);
-  
-  const folders = await getFolders({params});
+
+  const folders = await getFolders({ params });
   return folders;
 };
 
@@ -27,8 +27,8 @@ export const getFolderContent = async (data) => {
   params.append('action', 'expandNode');
   params.append('sendWhat', 'both');
 
-  
-  const content = await getFolders({params});
+
+  const content = await getFolders({ params });
   return content;
 
 };
@@ -44,11 +44,11 @@ export const getFilesHandler = async (event) => {
   params.append('action', 'expandNode');
   params.append('sendWhat', 'files');
 
-  const files = await getFolders({params});
+  const files = await getFolders({ params });
   return files;
 };
 
-export const deleteItemRequest = async ({item, folderPath}) => {
+export const deleteItemRequest = async ({ item, folderPath }) => {
   const params = new URLSearchParams();
   params.append('option', item.type === 'Directory' ? 'directory' : 'documents');
   params.append('dir', folderPath ? folderPath.id : 'root');
@@ -56,7 +56,7 @@ export const deleteItemRequest = async ({item, folderPath}) => {
   params.append('selitems[]', item.id);
   params.append('action', 'delete');
 
-  const response = await getFolders({params});
+  const response = await getFolders({ params });
   return response;
 }
 
@@ -67,15 +67,40 @@ export const createFolderRequest = async ({
   folderName
 }) => {
   const params = new URLSearchParams();
-params.append('option', 'new');
-params.append('action', 'appFolderSave');
-params.append('dir', folderId);
-params.append('confirm', 'true');
-params.append('FOLDER_PATH', folderPath);
-// params.append('form[FOLDER_UID]', id);
-params.append('form[FOLDER_PARENT_UID]', folderParentId);
-params.append('form[FOLDER_NAME]', folderName);
+  params.append('option', 'new');
+  params.append('action', 'appFolderSave');
+  params.append('dir', folderId);
+  params.append('confirm', 'true');
+  params.append('FOLDER_PATH', folderPath);
+  // params.append('form[FOLDER_UID]', id);
+  params.append('form[FOLDER_PARENT_UID]', folderParentId);
+  params.append('form[FOLDER_NAME]', folderName);
 
-const response = await getFolders({params});
-return response;
+  const response = await getFolders({ params });
+  return response;
+}
+
+
+export const uploadFilesRequest = async ({
+  folderId,
+  files
+}) => {
+  const formData = new FormData();
+
+  for (const file of files) {
+    formData.append('uploadedFile[]', file);
+  }
+
+  formData.append('overwrite_files', 'on');
+  formData.append('option', 'standardupload');
+  formData.append('action', 'uploadExternalDocument');
+  formData.append('dir', folderId);
+
+  formData.append('requestType', 'xmlhttprequest');
+  formData.append('confirm', 'true');
+  formData.append('docUid', '-1');
+  formData.append('appId', '00000000000000000000000000000000');
+
+  const response = await getFolders({ params: formData, multipart: true });
+  return response;
 }

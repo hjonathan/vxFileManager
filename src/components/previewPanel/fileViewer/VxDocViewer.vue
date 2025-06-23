@@ -71,7 +71,6 @@ const currentPage = ref(1)
 const totalPages = ref(1)
 
 const loadDocument = async () => {
-  console.log('loadDocument')
   loading.value = true
   error.value = null
   

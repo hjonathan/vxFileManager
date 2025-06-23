@@ -83,7 +83,6 @@ export const useFileManager = () => {
   }
   
   const getCurrentPath = () => {
-    console.log("getCurrentPath", history.value)
     if(history.value.length > 0){ 
       const path = history.value.map(item => item.name).join('/')
       return "/" + path

@@ -1,4 +1,4 @@
-export const deleteItemModal = (emit)=>{
+export const deleteItemModalConfig = (emit)=>{
   return {
     type: 'delete-item',
     title: 'Delete',
@@ -18,7 +18,7 @@ export const deleteItemModal = (emit)=>{
   }
 }
 
-export const createFolderModal = (emit)=>{
+export const createFolderModalConfig = (emit)=>{
   return {
     type: 'create-folder',
     title: 'Create Folder',
@@ -38,9 +38,30 @@ export const createFolderModal = (emit)=>{
   }
 }
 
+export const uploadFilesModalConfig = (emit)=>{
+  return {
+    type: 'upload-files',
+    title: 'Upload Files',
+    buttonLabel: 'Upload',
+    buttonCancelLabel: 'Cancel',
+    buttonHandler: (emit, data)=>{
+      emit('event', {
+        type: 'upload-files',
+        data
+      })
+    },
+    buttonCancelHandler: (emit)=>{
+      emit('event', {
+        type: 'close-modal'
+      })
+    },
+  }
+}
+
 const config = {
-  'delete-item': deleteItemModal,
-  'create-folder': createFolderModal
+  'delete-item': deleteItemModalConfig,
+  'create-folder': createFolderModalConfig,
+  'upload-files':uploadFilesModalConfig
 }
 
 export const modalConfigBuilder = (modalType)=>{
