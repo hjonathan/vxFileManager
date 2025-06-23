@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all w-full">
+    class="relative transform overflow-y-auto overflow-x-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all w-full">
     <div class="flex flex-col gap-2 w-full">
       <div class="flex flex-col mt-3 text-center w-full space-y-2">
         <h3 class="flex justify-start text-base font-semibold text-gray-900" id="dialog-title">{{ config.title }}</h3>

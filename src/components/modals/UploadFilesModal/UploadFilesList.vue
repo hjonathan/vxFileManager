@@ -1,10 +1,10 @@
 <template>
   <ul role="list" class="divide-y divide-gray-100">
-    <li v-for="(file, index) in data" :key="file.name" class="relative flex justify-between gap-x-6 py-5">
+    <li v-for="(file, index) in data" :key="file.name" class="relative flex justify-between gap-x-6 py-2">
       <div class="flex min-w-0 gap-x-4">
         <DocumentIcon class="size-12 flex-none rounded-full text-gray-200" />
         <div class="min-w-0 flex-auto">
-          <p class="text-sm/6 font-semibold text-gray-900">
+          <p class="text-xs font-semibold text-gray-900">
             {{ file.name }}
           </p>
           <p class="mt-1 flex text-xs/5 text-gray-500">
@@ -55,7 +55,6 @@ const data = defineModel('data', {
 const emit = defineEmits(['update:data'])
 
 const removeFile = (file, index) => {  
-  fileArray.splice(index, 1)
-  data.value = fileArray
+  data.value.splice(index, 1)
 }
 </script>

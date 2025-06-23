@@ -9,8 +9,13 @@
           <HeaderSearch class="w-60" />
         </div>
         <div class="hidden lg:ml-4 lg:flex lg:items-center">
+
           <ButtonIcon @click="emit('event', { type: 'show-create-folder-modal' })">
             <FolderPlusIcon class="size-6" />
+          </ButtonIcon>
+
+          <ButtonIcon @click="emit('event', { type: 'show-upload-files-modal' })">
+            <ArrowUpTrayIcon class="size-6" />
           </ButtonIcon>
 
           <ButtonIcon @click="emit('event', { type: 'refresh-folder' })">
@@ -31,7 +36,7 @@
 </template>
 
 <script setup>
-import { BellIcon, UserIcon, Cog6ToothIcon, ViewColumnsIcon, InformationCircleIcon, FolderPlusIcon, ArrowPathIcon } from '@heroicons/vue/24/outline'
+import { BellIcon, UserIcon, Cog6ToothIcon, ViewColumnsIcon, InformationCircleIcon, FolderPlusIcon, ArrowPathIcon, ArrowUpTrayIcon } from '@heroicons/vue/24/outline'
 import HeaderSearch from './HeaderSearch.vue'
 import ButtonIcon from './ButtonIcon.vue'
 import NavigationBar from '../../navbar/NavigationBar.vue'
