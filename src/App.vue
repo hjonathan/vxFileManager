@@ -159,7 +159,7 @@
 import { provide, ref, onMounted, nextTick } from 'vue'
 import Sidebar from './components/sidebar/Sidebar.vue'
 import MainContent from './components/mainContent/MainContent.vue'
-import { expandHomeHandler, getFolderContent, deleteFolderRequest, createFolderRequest } from './mainHandler/folderHandler'
+import { expandHomeHandler, getFolderContent, deleteItemRequest, createFolderRequest } from './mainHandler/folderHandler'
 import { useFileManager } from './components/composable/FileManager'
 import ResizablePanel from './components/previewPanel/ResizablePanel.vue'
 import ModalFileManager from './components/modals/ModalFileManager.vue'
@@ -271,17 +271,23 @@ const onClickExpandFolder = (event) => {
   })
 }
 
-const showDeleteFolderModal = async (event) => {
-  modalType.value = 'delete-folder'
+const showDeleteItemModal = async (event) => {
+  modalType.value = 'delete-item'
   fileManager.setSelectedItem(event.data)  
   nextTick(() => {
     showModal.value = true
   })
 }
 
-const deleteFolder = async (event) => {
+const deleteItem = async (event) => {
   const itemSelected = fileManager.getSelectedItem()
-  deleteFolderRequest(itemSelected)
+  const folderPath = fileManager.getLastHistory()
+
+  console.log("deleteItem", itemSelected, folderPath)
+  deleteItemRequest({
+    item: itemSelected,
+    folderPath: folderPath
+  })
   fileManager.setSelectedItem(null)
   showModal.value = false
 
@@ -314,7 +320,7 @@ const createFolder = async (event) => {
 
 const events = {
   'expand-folder': onClickExpandFolder,
-  'show-delete-folder-modal': showDeleteFolderModal,
+  'show-delete-item-modal': showDeleteItemModal,
   'show-create-folder-modal': showCreateFolderModal,
   'get-content': onClickGetContent,
   'toogle-view-mode': fileManager.toogleViewMode,
@@ -327,7 +333,7 @@ const events = {
   },
   'go-to-directory': goToDirectory,
   'close-modal': closeModal,
-  'delete-folder': deleteFolder,
+  'delete-item': deleteItem,
   'create-folder': createFolder,
 }
 

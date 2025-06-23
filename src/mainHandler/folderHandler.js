@@ -48,10 +48,10 @@ export const getFilesHandler = async (event) => {
   return files;
 };
 
-export const deleteFolderRequest = async (item) => {
+export const deleteItemRequest = async ({item, folderPath}) => {
   const params = new URLSearchParams();
-  params.append('option', 'directory');
-  params.append('dir', item.id);
+  params.append('option', item.type === 'Directory' ? 'directory' : 'documents');
+  params.append('dir', folderPath ? folderPath.id : 'root');
   params.append('item', item.id);
   params.append('selitems[]', item.id);
   params.append('action', 'delete');

@@ -1,13 +1,13 @@
-export const deleteFolderModal = (emit)=>{
+export const deleteItemModal = (emit)=>{
   return {
-    type: 'delete-folder',
-    title: 'Delete Folder',
+    type: 'delete-item',
+    title: 'Delete',
     description: 'Do you want to deleted selected(1) items?',
     buttonLabel: 'Delete',
     buttonCancelLabel: 'Cancel',
     buttonHandler: (emit)=>{
       emit('event', {
-        type: 'delete-folder'
+        type: 'delete-item'
       })
     },
     buttonCancelHandler: (emit)=>{
@@ -39,7 +39,7 @@ export const createFolderModal = (emit)=>{
 }
 
 const config = {
-  'delete-folder': deleteFolderModal,
+  'delete-item': deleteItemModal,
   'create-folder': createFolderModal
 }
 

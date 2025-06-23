@@ -53,4 +53,8 @@ CONTENT MAIN
 - Delete menu folder                                            ok 4.5h
 - Information menu folder                                       ok 5mins
 
-- Create new folder                                             in progress
+- Create new folder                                             ok 2.5 h
+- Grid view comntextual menu                                    ok 0.5 h
+
+- Contextual menu information file                              ok 5mins
+- Contextual menu delete file                                   ok 0.5h

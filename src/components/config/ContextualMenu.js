@@ -15,9 +15,6 @@ export const directoryMenu =  ()=> {
     { 
       id: 'move',
       label: 'Move to',
-      action: () => {
-
-      }
     },
   ]
 }
@@ -34,32 +31,12 @@ export const contentMainMenu =  ()=> {
 export const fileMenu =  ()=> {
   return [
     { 
-      id: 'open',
-      label: 'Open',
-      action: () => {
-
-      }
+      id: 'information',
+      label: 'Information',
     },
     { 
       id: 'delete',
       label: 'Delete',
-      action: () => {
-
-      }
-    },
-    { 
-      id: 'show',
-      label: 'Show information',
-      action: () => {
-
-      }
-    },
-    { 
-      id: 'move',
-      label: 'Move to',
-      action: () => {
-
-      }
     },
   ]
 }

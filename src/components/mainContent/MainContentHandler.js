@@ -25,9 +25,9 @@ export const openDirectory = (emit, item) => {
   })
 }
 
-export const deleteDirectory = (emit, item) => {
+export const deleteItem = (emit, item) => {
   emit('event', {
-    type: 'show-delete-folder-modal',
+    type: 'show-delete-item-modal',
     data: item,
   })
 }
@@ -48,7 +48,7 @@ export const createFolder = (emit, item) => {
 
 const handler = {
   open: openDirectory,
-  delete: deleteDirectory,
+  delete: deleteItem,
   information: openPreviewMode,
   'create-folder': createFolder,
 }

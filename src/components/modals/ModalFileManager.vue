@@ -29,7 +29,7 @@ const showModal = defineModel('showModal', {
 const modalConfig =  computed(() => modalConfigBuilder(props.type))
 
 const modalComponent = {
-  'delete-folder': DangerModal,
+  'delete-item': DangerModal,
   'create-folder': CreateModal
 }
 

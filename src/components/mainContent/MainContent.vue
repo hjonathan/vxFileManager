@@ -1,10 +1,10 @@
 <template>
   <HeaderContent @event="onEvent" :fileManager="fileManager" />
   <main class="flex w-full relative h-full overflow-hidden">
-    <div class="w-full h-full overflow-scroll">
+    <div class="flex w-full h-full overflow-scroll">
       <StackedList v-model:data="data" class="h-full w-full" v-if="viewMode === 'stacked'" v-model:selectMode="selectMode"
         @event="onEvent" />
-      <GridView v-model:data="data" class="w-full p-4" v-if="viewMode === 'grid'" v-model:selectMode="selectMode" @event="onEvent" />
+      <GridView v-model:data="data" class="w-full h-full p-4" v-if="viewMode === 'grid'" v-model:selectMode="selectMode" @event="onEvent" />
     </div>
     <ResizablePanel v-if="selectedItem && previewMode" class="flex relative" :w="1000" :minw="200" :maxw="1500">
       <PreviewPanel @event="onEvent" :fileManager="fileManager" :previewMode="previewMode" />
