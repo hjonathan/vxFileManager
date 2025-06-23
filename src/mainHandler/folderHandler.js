@@ -104,3 +104,18 @@ export const uploadFilesRequest = async ({
   const response = await getFolders({ params: formData, multipart: true });
   return response;
 }
+
+export const searchRequest = async ({search, folderId}) => {
+  const params = new URLSearchParams();
+  params.append('start', '0');
+  params.append('limit', '25');
+  params.append('dir', folderId);
+  params.append('node', folderId);
+  params.append('option', 'gridDocuments');
+  params.append('sendWhat', 'both');
+  params.append('action', 'expandNode');
+  params.append('search', search);
+
+  const response = await getFolders({ params });
+  return response;
+}

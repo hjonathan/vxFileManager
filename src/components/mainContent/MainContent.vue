@@ -1,5 +1,5 @@
 <template>
-  <HeaderContent @event="onEvent" :fileManager="fileManager" />
+  <HeaderContent @event="onEvent" :fileManager="fileManager" class="w-full overflow-hidden" />
   <main class="flex w-full relative h-full overflow-hidden">
     <div class="flex w-full h-full overflow-scroll">
       <StackedList v-model:data="data" class="h-full w-full" v-if="viewMode === 'stacked'" v-model:selectMode="selectMode"
@@ -43,32 +43,9 @@ const data = defineModel('data', {
 
 const { viewMode, previewMode, selectedItem } = props.fileManager;
 const showContextMenu = ref(false)
-
-
-const pdfFile = ref(null);
-
-const docFile = ref(null);
-
-const handleDocFileUpload = async (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const arrayBuffer = await file.arrayBuffer();
-    docFile.value = new Uint8Array(arrayBuffer);
-  }
-};
-
-const handleFileUpload = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    pdfFile.value = URL.createObjectURL(file);
-  }
-};
-
 const selectMode = ref(false);
 
 const onEvent = (event) => {
   emit("event", event);
 };
 </script>
-
-<style scoped></style>

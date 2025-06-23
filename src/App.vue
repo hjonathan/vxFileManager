@@ -16,7 +16,7 @@
 import { provide, ref, onMounted, nextTick } from 'vue'
 import Sidebar from './components/sidebar/Sidebar.vue'
 import MainContent from './components/mainContent/MainContent.vue'
-import { expandHomeHandler, getFolderContent, deleteItemRequest, createFolderRequest, uploadFilesRequest } from './mainHandler/folderHandler'
+import { expandHomeHandler, getFolderContent, deleteItemRequest, createFolderRequest, uploadFilesRequest, searchRequest } from './mainHandler/folderHandler'
 import { useFileManager } from './components/composable/FileManager'
 import ResizablePanel from './components/previewPanel/ResizablePanel.vue'
 import ModalFileManager from './components/modals/ModalFileManager.vue'
@@ -194,6 +194,35 @@ const uploadFiles = async (event) => {
   refreshCurrentFolder()
 }
 
+const downloadFile = async (event) => {
+  const itemSelected = event.data
+  const origin = window.location.origin
+  const pathname = window.location.pathname.split('/').slice(0, -2).join('/')
+  const downloadLink = itemSelected.downloadLink.split('/').slice(1).join('/')
+  const url = origin+ pathname + "/" + downloadLink
+  
+  fetch(url)
+    .then(response => response.blob())
+    .then(blob => {
+      const blobUrl = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = blobUrl
+      link.download = itemSelected.name
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(blobUrl)
+    })
+}
+
+const search = async (event) => {
+  const currentFolder = fileManager.getLastHistory()
+  const search = event.data
+  const response = await searchRequest({search, folderId: currentFolder ? currentFolder.id : 'root'})
+
+  dataContentMain.value = response.items
+}
+
 const events = {
   'expand-folder': onClickExpandFolder,
   'show-delete-item-modal': showDeleteItemModal,
@@ -214,6 +243,8 @@ const events = {
   'create-folder': createFolder,
   'refresh-folder': refreshCurrentFolder,
   'upload-files': uploadFiles,
+  'download-file': downloadFile,
+  'search': search,
 }
 
 const onEvent = (event) => {
@@ -230,3 +261,14 @@ onMounted(async () => {
   await updateContentMain()
 })
 </script>
+
+<style>
+.theme-svg-primary {
+    fill: #4dbbff;
+    stroke: #4dbbff;
+}
+
+.theme-text-primary {
+    color: #4dbbff;
+}
+</style>

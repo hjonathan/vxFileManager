@@ -43,6 +43,10 @@ export const fileMenu =  ()=> {
       label: 'Information',
     },
     { 
+      id: 'download',
+      label: 'Download',
+    },
+    { 
       id: 'delete',
       label: 'Delete',
     },

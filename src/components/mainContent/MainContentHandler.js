@@ -1,4 +1,4 @@
-import { fileMenu, directoryMenu, contentMainMenu } from '../config/ContextualMenu'
+import { fileMenu, directoryMenu, contentMainMenu } from './ContextualMenu'
 
 export const menuOptionsBuilder = (item) => {
   if (!item) {
@@ -58,6 +58,13 @@ export const showUploadFilesModal = (emit, item) => {
   })
 }
 
+export const downloadFile = (emit, item) => {
+  emit('event', {
+    type: 'download-file',
+    data: item
+  })
+}
+
 const handlerContextualMenu = {
   open: openDirectory,
   delete: deleteItem,
@@ -65,6 +72,7 @@ const handlerContextualMenu = {
   'create-folder': createFolder,
   'refresh-folder': refreshCurrentFolder,
   'upload-files': showUploadFilesModal,
+  download: downloadFile,
 }
 
 export const handleMenuItemClick = (menuOption, emit, item) => {

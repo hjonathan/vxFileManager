@@ -1,12 +1,11 @@
 <template>
-  <nav class="bg-white shadow-sm sticky top-0 z-50">
-    <div class="mx-auto px-4">
+  <nav class="shadow-sm sticky top-0 z-50 w-full mx-auto px-4">
       <div class="flex h-16 justify-between">
-        <div class="flex py-4">
-          <NavigationBar :fileManager="fileManager" @event="e => emit('event', e)" />
+        <div class="flex py-4 w-full overflow-x-auto navbar-scrollbar">
+          <NavigationBar :fileManager="fileManager" @event="e => emit('event', e)"  class="w-full overflow-x-auto"/>
         </div>
         <div class="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
-          <HeaderSearch class="w-60" />
+          <HeaderSearch class="w-60" @change="onChangeSearch" />
         </div>
         <div class="hidden lg:ml-4 lg:flex lg:items-center">
 
@@ -31,7 +30,6 @@
           </ButtonIcon>
         </div>
       </div>
-    </div>
   </nav>
 </template>
 
@@ -51,4 +49,31 @@ const props = defineProps({
 })
 
 const { viewMode, previewMode } = props.fileManager
+
+const onChangeSearch = (search) => {
+  emit('event', { type: 'search', data: search })
+}
 </script>
+
+<style scoped>
+.navbar-scrollbar {
+  &::-webkit-scrollbar {
+    height: 0px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: transparent;
+  }
+  
+  scrollbar-width:none;
+  scrollbar-color: transparent transparent;
+}
+</style>

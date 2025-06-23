@@ -65,3 +65,6 @@ CONTENT MAIN
   - Reload                                                      ok 20mins
   - Upload files mockup                                         ok 0.5h
   - Upload file show files                                      ok 4h
+  - Files download Menu Contextual                              ok 20 mins
+  - Search in main content                                      ok 10 mins
+  - Color sky Mac Finder Schema theme                           ok 31 mins

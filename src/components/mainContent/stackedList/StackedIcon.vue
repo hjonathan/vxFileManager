@@ -5,7 +5,7 @@
         <!-- <DocumentIcon v-else class="size-8 flex-none rounded-full bg-gray-50" /> -->
 
         <div v-else class="flex items-center justify-center pr-2"><span
-                class="text-theme text-emerald-400 absolute z-[5] mx-auto mt-1 inline-block w-7 overflow-hidden text-ellipsis text-center text-[9px] font-semibold">
+                class="text-theme theme-text-primary absolute z-[5] mx-auto mt-1 inline-block w-7 overflow-hidden text-ellipsis text-center text-[9px] font-semibold">
                 {{ extension }}
             </span> 
             <DocumentIconVx />

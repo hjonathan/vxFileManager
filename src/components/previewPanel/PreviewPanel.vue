@@ -20,27 +20,27 @@
       <dl class="mt-1 flex flex-col space-y-2  w-full px-4 font-medium text-gray-500">
 
         <span class="flex flex-col justify-start" v-if="selectedItem?.name">
-          <span class="text-emerald-500">Name</span>
+          <span class="theme-text-primary">Name</span>
           <span>{{ selectedItem?.name }}</span>
         </span>
 
         <span class="flex flex-col justify-start" v-if="selectedItem?.appDocCreateDate">
-          <span class="text-emerald-500">Updated at</span>
+          <span class="theme-text-primary">Updated at</span>
           <span>{{ selectedItem?.appDocCreateDate }}</span>
         </span>
 
         <span class="flex flex-col justify-start" v-if="selectedItem?.appDocTags">
-          <span class="text-emerald-500">Tag</span>
+          <span class="theme-text-primary">Tag</span>
           <span>{{ selectedItem?.appDocTags }}</span>
         </span>
 
         <span class="flex flex-col justify-start" v-if="selectedItem?.owner">
-          <span class="text-emerald-500">Owner</span>
+          <span class="theme-text-primary">Owner</span>
           <span>{{ selectedItem?.owner }}</span>
         </span>
 
         <span class="flex flex-col justify-start" v-if="selectedItem?.type">
-          <span class="text-emerald-500">Type</span>
+          <span class="theme-text-primary">Type</span>
           <span>{{ selectedItem?.type }}</span>
         </span>
       </dl>
