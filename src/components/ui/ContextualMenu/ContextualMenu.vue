@@ -8,7 +8,7 @@
            :key="item.id"
            class="flex items-center px-4 py-2 cursor-pointer transition-colors relative hover:bg-gray-100"
            :class="{ 'opacity-50 cursor-not-allowed': item.disabled, 'h-px !py-0 bg-gray-300 my-1 p-0 cursor-default': item.separator }"
-           @click="handleItemClick(item)">
+           @click.prevent.stop="handleItemClick(item)">
         <div v-if="item.icon" class="mr-2 w-4 h-4 flex items-center justify-center">
           <component :is="item.icon" />
         </div>

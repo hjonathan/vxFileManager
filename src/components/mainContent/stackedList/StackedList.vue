@@ -1,26 +1,28 @@
 <template>
   <ul role="list"
     class="divide-y divide-gray-100 bg-white shadow-xs ring-1 ring-gray-900/5 sm:rounded-xl"
-    @contextmenu.prevent.stop="e=>handleContextMenu(e)">
-    <StackedItem v-for="(item, index) in data" :key="item.name" :data="item" @click="handleClick(item, index)" @contextmenu.prevent.stop="e=>handleContextMenu(e, item, index)">
-      <template #select v-if="selectMode">
-        <div class="group grid size-4 grid-cols-1">
-          <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" checked=""
-            class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto" />
-          <svg
-            class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25"
-            viewBox="0 0 14 14" fill="none">
-            <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round" />
-            <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </div>
-      </template>
-      <template #image>
-        <StackedIcon :item="item" />
-      </template>
-    </StackedItem>
+    @contextmenu.prevent="e=>handleContextMenu(e)">
+    <template v-for="(item, index) in data" :key="item.name">
+      <StackedItem v-model:data="data[index]" @click.prevent="handleClick(data[index], index)" @contextmenu.prevent.stop="e=>handleContextMenu(e, item, index)">
+        <template #select v-if="selectMode">
+          <div class="group grid size-4 grid-cols-1">
+            <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" checked=""
+              class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto" />
+            <svg
+              class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25"
+              viewBox="0 0 14 14" fill="none">
+              <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+              <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </template>
+        <template #image>
+          <StackedIcon :item="item" />
+        </template>
+      </StackedItem>
+    </template>
     <ContextualMenu
       v-if="showContextMenu"
       :event="event"
@@ -53,8 +55,11 @@ const clicks = ref(0);
 const delay = 200;
 const itemContextMenu = ref()
 
-const handleContextMenu = (e, item, index) => {
+const handleContextMenu = async (e, item, index) => {
   itemContextMenu.value =  data.value[index] ? data.value[index] : {type: 'content-main'}
+  if (item) {
+    selectItem(item, index)
+  }
   e.preventDefault()
   event.value = e
   nextTick(() => {
@@ -62,18 +67,30 @@ const handleContextMenu = (e, item, index) => {
   })
 }
 
-const hideMenu = () => {
-  showContextMenu.value = false
+const selectItem = async (item, index) => {
+  await emit('event', {
+    type: 'select-item',
+    data: data.value[index]
+  })
 }
 
-const onDoubleClickStage = (item, index) => {
+const hideMenu = () => {
+  showContextMenu.value = false
+  // emit('event', {
+  //   type: 'deselect-item',
+  // })
+}
+
+const onDoubleClickStage = async (item, index) => {
+  await selectItem(item, index)
   if (item.type === 'Directory') {
     openDirectory(emit, data.value[index])
   }
 }
 
 const onClickItem = (item, index) => {
-  openPreviewMode(emit, data.value[index])
+  selectItem(item, index)
+  //openPreviewMode(emit)
 }
 
 const handleClick = (item, index) => {

@@ -41,6 +41,14 @@ Navigator
  - Resizable                                                    ok 3h
  - check the current folder                                     ok 2h 30mins
 
+ NAVIGATOR BAR
+  - First template                                              ok 1h
+  - Reload                                                      ok 20mins
+  - Upload files mockup                                         ok 0.5h
+  - Upload file show files                                      ok 4h
+  - Files download Menu Contextual                              ok 20 mins
+  - Search in main content                                      ok 10 mins
+  - Color sky Mac Finder Schema theme                           ok 31 mins
 
 CONTENT MAIN
 - Click on folder to expand the preview Mode                    ok 1h
@@ -57,14 +65,4 @@ CONTENT MAIN
 
 - Contextual menu information file                              ok 5mins
 - Contextual menu delete file                                   ok 0.5h
-
-
-
- NAVIGATOR BAR
-  - First template                                              ok 1h
-  - Reload                                                      ok 20mins
-  - Upload files mockup                                         ok 0.5h
-  - Upload file show files                                      ok 4h
-  - Files download Menu Contextual                              ok 20 mins
-  - Search in main content                                      ok 10 mins
-  - Color sky Mac Finder Schema theme                           ok 31 mins
+- Color distintivo en elemento seleccionado                     ok 3h

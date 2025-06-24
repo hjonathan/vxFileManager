@@ -75,14 +75,12 @@ const updateCurrentItem = (itemSelected) => {
  * @param {*} event ref variable (Its necessary to use .value to get the value of the ref)
  */
 const onClickGetContent = async (event) => {
-  const itemSelected = event.data?.value ?? event.data
-
+  const itemSelected = fileManager.getSelectedItem()
   await updateDataContentMain(itemSelected)
   updateCurrentItem(itemSelected)
 
   // Update the navigator history
   fileManager.goTo(itemSelected)
-
   activateItemInNavigator(dataNavigator.value, itemSelected);
 }
 
@@ -114,8 +112,12 @@ const activateItemInNavigator = (items, itemSelected) => {
 const goToDirectory = async (event) => {
   fileManager.setPreviewMode(false)
   const itemSelected = event.data?.value ?? event.data
-  await onClickGetContent(event);
 
+  await updateDataContentMain(itemSelected)
+  updateCurrentItem(itemSelected)
+
+  // Update the navigator history
+  fileManager.goTo(itemSelected)
   activateItemInNavigator(dataNavigator.value, itemSelected);
 }
 
@@ -129,7 +131,6 @@ const onClickExpandFolder = (event) => {
 
 const showDeleteItemModal = async (event) => {
   modalType.value = 'delete-item'
-  fileManager.setSelectedItem(event.data)
   nextTick(() => {
     showModal.value = true
   })
@@ -195,7 +196,7 @@ const uploadFiles = async (event) => {
 }
 
 const downloadFile = async (event) => {
-  const itemSelected = event.data
+  const itemSelected = fileManager.getSelectedItem()
   const origin = window.location.origin
   const pathname = window.location.pathname.split('/').slice(0, -2).join('/')
   const downloadLink = itemSelected.downloadLink.split('/').slice(1).join('/')
@@ -223,6 +224,21 @@ const search = async (event) => {
   dataContentMain.value = response.items
 }
 
+const selectItem = (event) => {
+  deselectItem()
+  const itemSelected = event.data
+  itemSelected.selected = true
+  fileManager.setSelectedItem(itemSelected)
+}
+
+const deselectItem = () => {
+  const itemSelected = fileManager.getSelectedItem()
+  if (itemSelected) {
+    itemSelected.selected = false
+  }
+  fileManager.setSelectedItem(null)
+}
+
 const events = {
   'expand-folder': onClickExpandFolder,
   'show-delete-item-modal': showDeleteItemModal,
@@ -233,10 +249,7 @@ const events = {
   'toogle-preview-mode': fileManager.tooglePreviewMode,
   'refresh-navigator': refreshNavigator,
   'close-preview-mode': () => fileManager.setPreviewMode(false),
-  'open-preview-mode': (event) => {
-    fileManager.setPreviewMode(true)
-    fileManager.setSelectedItem(event.data)
-  },
+  'open-preview-mode': () => {fileManager.setPreviewMode(true)},
   'go-to-directory': goToDirectory,
   'close-modal': closeModal,
   'delete-item': deleteItem,
@@ -245,6 +258,8 @@ const events = {
   'upload-files': uploadFiles,
   'download-file': downloadFile,
   'search': search,
+  'select-item': selectItem,
+  'deselect-item': deselectItem
 }
 
 const onEvent = (event) => {
@@ -270,5 +285,9 @@ onMounted(async () => {
 
 .theme-text-primary {
     color: #4dbbff;
+}
+
+.theme-item-selected {
+  background-color: #009dffac;
 }
 </style>

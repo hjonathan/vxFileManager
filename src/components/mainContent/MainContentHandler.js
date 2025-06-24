@@ -15,10 +15,9 @@ export const menuOptionsBuilder = (item) => {
   }
 }
 
-export const openDirectory = (emit, item) => {
+export const openDirectory = (emit) => {
   emit('event', {
     type: 'get-content',
-    data: item,
   })
   emit('event', {
     type: 'close-preview-mode',

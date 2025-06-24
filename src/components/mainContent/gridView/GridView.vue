@@ -1,5 +1,5 @@
 <template>
-  <div @contextmenu.prevent.stop="e=>handleContextMenu(e)">
+  <div @contextmenu.prevent="e=>handleContextMenu(e)">
     <ContextualMenu
       v-if="showContextMenu"
       :event="event"
@@ -8,13 +8,15 @@
       :menu-items="menuOptionsBuilder(itemContextMenu)" />
     <ul role="list"
       class="flex flex-wrap gap-4">
-      <ItemView class="flex w-40 h-60"
-        v-for="(item, index) in data" :key="item.name" :data="item" @click="handleClick(item)"
-        @contextmenu.prevent.stop="e=>handleContextMenu(e, item, index)">
-        <template #image>
-          <GridIcon :item="item" />
-        </template>
-      </ItemView>
+      <template v-for="(item, index) in data" :key="item.name">
+        <ItemView class="flex w-40 h-60"
+          v-model:data="data[index]" @click="e=>handleClick(e, data[index], index)"
+          @contextmenu="e=>handleContextMenu(e, data[index], index)">
+          <template #image>
+            <GridIcon :item="item" />
+          </template>
+        </ItemView>
+      </template>
     </ul>
   </div>
 </template>
@@ -40,51 +42,59 @@ const event = ref()
 const showContextMenu = ref(false)
 const itemContextMenu = ref()
 
-const handleContextMenu = (e, item, index) => {
-  itemContextMenu.value =  data.value[index] ? data.value[index] : {type: 'content-main'}
+const handleContextMenu = async (e, item, index) => {
+  e.stopPropagation()
   e.preventDefault()
+  itemContextMenu.value =  data.value[index] ? data.value[index] : {type: 'content-main'}
+  if (item) {
+    selectItem(item, index)
+  }
   event.value = e
   nextTick(() => {
     showContextMenu.value = true
   })
 }
 
-const hideMenu = () => {
-  showContextMenu.value = false
-}
-
-const onDoubleClickStage = (item) => {
-  if (item.type === 'Directory') {
-    emit('event', {
-      type: 'get-content',
-      data: item,
-    })
-    emit('event', {
-      type: 'close-preview-mode',
-    })
-  }
-}
-
-const onClickItem = (item) => {
-  emit('event', {
-    type: 'open-preview-mode',
-    data: item
+const selectItem = async (item, index) => {
+  await emit('event', {
+    type: 'select-item',
+    data: data.value[index]
   })
 }
 
-const handleClick = (item) => {
+const hideMenu = () => {
+  showContextMenu.value = false
+  // emit('event', {
+  //   type: 'deselect-item',
+  // })
+}
+
+const onDoubleClickStage = async (item, index) => {
+  await selectItem(item, index)
+  if (item.type === 'Directory') {
+    openDirectory(emit, data.value[index])
+  }
+}
+
+const onClickItem = (item, index) => {
+  selectItem(item, index)
+  //openPreviewMode(emit)
+}
+
+const handleClick = (e, item, index) => {
+  if(e){
+    e.preventDefault()
+  }
   clicks.value += 1;
   if (clicks.value === 1) {
     setTimeout(() => {
       if (clicks.value === 1) {
-        onClickItem(item)
+        onClickItem(item, index)
       } else if (clicks.value === 2) {
-        onDoubleClickStage(item)
+        onDoubleClickStage(item, index)
       }
       clicks.value = 0;
     }, delay);
   }
 };
 </script>
-
-<style scoped></style>
