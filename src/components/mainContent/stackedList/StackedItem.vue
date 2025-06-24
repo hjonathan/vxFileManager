@@ -5,7 +5,7 @@
       <slot name="select" />
       <slot name="image" />
       <div class="min-w-0 flex-auto">
-        <p class="text-sm/6 font-semibold text-gray-900">
+        <p class="text-sm/6 font-semibold text-gray-900 line-clamp-2 truncate">
           <a href="#">
             <span class="absolute inset-x-0 -top-px bottom-0"></span>
             {{ data.name }}
@@ -19,7 +19,7 @@
 
     <div class="flex shrink-0 items-center gap-x-4">
       <div class="flex flex-col hidden sm:flex sm:flex-col sm:items-end">
-        <p class="mt-1 text-xs/5 text-gray-500"><time :datetime="data.lastModified">{{ data?.appDocCreateDate }}</time>
+        <p class="mt-1 text-xs/5 text-gray-500"><time :datetime="data.lastModified">{{ formattedDate }}</time>
         </p>
       </div>
       <svg class="size-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
@@ -33,11 +33,20 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { ContentType, FolderType } from '../../../mainHandler/types'
+import { dateFormat } from '../../config/globalVariables'
+import dayjs from 'dayjs'
 
 const data = defineModel('data', {
   type: [ContentType, FolderType],
   required: true
+})
+
+const formattedDate = computed(() => {
+  return data.value?.appDocCreateDate
+  console.log('data.value.lastModified', data.value?.appDocCreateDate)
+  return dayjs(data.value.appDocCreateDate).format(dateFormat)
 })
 </script>
 

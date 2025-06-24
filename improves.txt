@@ -66,3 +66,4 @@ CONTENT MAIN
 - Contextual menu information file                              ok 5mins
 - Contextual menu delete file                                   ok 0.5h
 - Color distintivo en elemento seleccionado                     ok 3h
+- Paginado con scroll                                           ok 1.5h

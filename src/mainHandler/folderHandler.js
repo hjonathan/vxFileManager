@@ -27,14 +27,11 @@ export const getFolderContent = async (data) => {
   params.append('action', 'expandNode');
   params.append('sendWhat', 'both');
 
-
   const content = await getFolders({ params });
   return content;
-
 };
 
 export const getFilesHandler = async (event) => {
-
   const params = new URLSearchParams();
   params.append('start', '0');
   params.append('limit', '25');
@@ -119,3 +116,18 @@ export const searchRequest = async ({search, folderId}) => {
   const response = await getFolders({ params });
   return response;
 }
+
+export const getMoreItemsRequest = async (data, page) => {
+  const params = new URLSearchParams();
+
+  params.append('start', String(page * 25));
+  params.append('limit', '25');
+  params.append('dir', !data ? 'root' : data.id);
+  params.append('node', !data ? 'root' : data.id);
+  params.append('option', 'gridDocuments');
+  params.append('action', 'expandNode');
+  params.append('sendWhat', 'both');
+
+  const content = await getFolders({ params });
+  return content;
+};

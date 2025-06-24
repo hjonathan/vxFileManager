@@ -16,7 +16,10 @@
 import { provide, ref, onMounted, nextTick } from 'vue'
 import Sidebar from './components/sidebar/Sidebar.vue'
 import MainContent from './components/mainContent/MainContent.vue'
-import { expandHomeHandler, getFolderContent, deleteItemRequest, createFolderRequest, uploadFilesRequest, searchRequest } from './mainHandler/folderHandler'
+import {
+  expandHomeHandler, getFolderContent,
+  deleteItemRequest, createFolderRequest, uploadFilesRequest, searchRequest, getMoreItemsRequest
+} from './mainHandler/folderHandler'
 import { useFileManager } from './components/composable/FileManager'
 import ResizablePanel from './components/previewPanel/ResizablePanel.vue'
 import ModalFileManager from './components/modals/ModalFileManager.vue'
@@ -24,6 +27,7 @@ import ModalFileManager from './components/modals/ModalFileManager.vue'
 //Variables
 const dataContentMain = ref([])
 const dataNavigator = ref([])
+const page = ref(0)
 const fileManager = useFileManager()
 const keyRefresh = ref(0)
 
@@ -55,6 +59,7 @@ const refreshNavigator = async () => {
 const refreshCurrentFolder = async () => {
   const currentFolder = fileManager.getLastHistory()
   await updateDataContentMain(currentFolder)
+  page.value = 0
 }
 
 const updateDataContentMain = async (itemSelected) => {
@@ -119,6 +124,7 @@ const goToDirectory = async (event) => {
   // Update the navigator history
   fileManager.goTo(itemSelected)
   activateItemInNavigator(dataNavigator.value, itemSelected);
+  page.value = 0
 }
 
 const onClickExpandFolder = (event) => {
@@ -200,8 +206,8 @@ const downloadFile = async (event) => {
   const origin = window.location.origin
   const pathname = window.location.pathname.split('/').slice(0, -2).join('/')
   const downloadLink = itemSelected.downloadLink.split('/').slice(1).join('/')
-  const url = origin+ pathname + "/" + downloadLink
-  
+  const url = origin + pathname + "/" + downloadLink
+
   fetch(url)
     .then(response => response.blob())
     .then(blob => {
@@ -219,7 +225,7 @@ const downloadFile = async (event) => {
 const search = async (event) => {
   const currentFolder = fileManager.getLastHistory()
   const search = event.data
-  const response = await searchRequest({search, folderId: currentFolder ? currentFolder.id : 'root'})
+  const response = await searchRequest({ search, folderId: currentFolder ? currentFolder.id : 'root' })
 
   dataContentMain.value = response.items
 }
@@ -239,6 +245,16 @@ const deselectItem = () => {
   fileManager.setSelectedItem(null)
 }
 
+const loadMore = async (event) => {
+  console.log('loadMore', event)
+  const currentFolder = fileManager.getLastHistory()
+  const response = await getMoreItemsRequest(currentFolder, page.value)
+  if (response.items.length > 0) {
+    dataContentMain.value = [...dataContentMain.value, ...response.items]
+    page.value++
+  }
+}
+
 const events = {
   'expand-folder': onClickExpandFolder,
   'show-delete-item-modal': showDeleteItemModal,
@@ -249,7 +265,7 @@ const events = {
   'toogle-preview-mode': fileManager.tooglePreviewMode,
   'refresh-navigator': refreshNavigator,
   'close-preview-mode': () => fileManager.setPreviewMode(false),
-  'open-preview-mode': () => {fileManager.setPreviewMode(true)},
+  'open-preview-mode': () => { fileManager.setPreviewMode(true) },
   'go-to-directory': goToDirectory,
   'close-modal': closeModal,
   'delete-item': deleteItem,
@@ -259,7 +275,8 @@ const events = {
   'download-file': downloadFile,
   'search': search,
   'select-item': selectItem,
-  'deselect-item': deselectItem
+  'deselect-item': deselectItem,
+  'load-more': loadMore
 }
 
 const onEvent = (event) => {
@@ -274,17 +291,18 @@ provide('provider', {
 onMounted(async () => {
   await updateNavigator()
   await updateContentMain()
+  page.value += 1
 })
 </script>
 
 <style>
 .theme-svg-primary {
-    fill: #4dbbff;
-    stroke: #4dbbff;
+  fill: #4dbbff;
+  stroke: #4dbbff;
 }
 
 .theme-text-primary {
-    color: #4dbbff;
+  color: #4dbbff;
 }
 
 .theme-item-selected {
