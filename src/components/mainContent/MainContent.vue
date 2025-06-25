@@ -3,10 +3,9 @@
   <main class="flex w-full relative h-full overflow-hidden">
     <div 
       ref="scrollContainer" 
-      class="flex flex-col w-full h-full overflow-scroll"
-      @scroll="handleScroll"
-    >
-      <StackedList v-model:data="data" class="w-full" v-if="viewMode === 'stacked'" v-model:selectMode="selectMode"
+      class=" flex flex-col w-full h-full overflow-y-auto"
+      @scroll="handleScroll">
+      <StackedList v-model:data="data" class="w-full h-full" v-if="viewMode === 'stacked'" v-model:selectMode="selectMode"
         @event="onEvent" />
       <GridView v-model:data="data" class="w-full h-full p-4" v-if="viewMode === 'grid'" v-model:selectMode="selectMode" @event="onEvent" />
       <!-- Elemento sentinela para detectar cuando llegamos al final -->
