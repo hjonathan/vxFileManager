@@ -2,7 +2,13 @@
   <nav class="shadow-sm sticky top-0 z-50 w-full mx-auto px-4">
       <div class="flex h-16 justify-between">
         <div ref="navbar" class="flex py-4 w-full overflow-x-auto navbar-scrollbar">
-          <NavigationBar :fileManager="fileManager" @event="e => emit('event', e)" class="w-full overflow-x-auto" @wheel.prevent="wheelHandler"/>
+          <NavigationBar 
+            :fileManager="fileManager" 
+            @event="e => emit('event', e)" 
+            class="w-full overflow-x-auto" 
+            :class="{ 'wheel-handler': !isMac }"
+            @wheel.prevent="!isMac ? wheelHandler : null"
+          />
         </div>
         <div class="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
           <HeaderSearch class="w-60" @change="onChangeSearch" />
@@ -34,7 +40,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { BellIcon, UserIcon, Cog6ToothIcon, ViewColumnsIcon, InformationCircleIcon, FolderPlusIcon, ArrowPathIcon, ArrowUpTrayIcon } from '@heroicons/vue/24/outline'
 import HeaderSearch from './HeaderSearch.vue'
 import ButtonIcon from './ButtonIcon.vue'
@@ -52,6 +58,11 @@ const props = defineProps({
 const { viewMode, previewMode } = props.fileManager
 
 const navbar = ref(null)
+
+// Detect if the user is on Mac
+const isMac = computed(() => {
+  return navigator.platform.toUpperCase().indexOf('MAC') >= 0
+})
 
 const onChangeSearch = (search) => {
   emit('event', { type: 'search', data: search })

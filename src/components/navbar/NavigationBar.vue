@@ -41,9 +41,4 @@ const goToDirectory = (page) => {
     data: page
   })
 }
-
-const pages = [
-  { name: 'Projects', href: '#', current: false },
-  { name: 'Project Nero', href: '#', current: true },
-]
 </script>

@@ -246,7 +246,6 @@ const deselectItem = () => {
 }
 
 const loadMore = async (event) => {
-  console.log('loadMore', event)
   const currentFolder = fileManager.getLastHistory()
   const response = await getMoreItemsRequest(currentFolder, page.value)
   if (response.items.length > 0) {

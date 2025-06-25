@@ -80,14 +80,12 @@ const handleScroll = (event) => {
   const isNearBottom = scrollTop + clientHeight >= scrollHeight - 50;
   
   if (isNearBottom && !isLoading.value) {
-    console.log('Scroll detectado cerca del final');
     isLoading.value = true;
     onScrollToBottom();
     
     // Resetear el flag después de un tiempo para evitar múltiples llamadas
     setTimeout(() => {
       isLoading.value = false;
-      console.log('Flag reset - puede cargar más elementos de nuevo');
     }, 2000); // 2 segundos de cooldown
   }
 };

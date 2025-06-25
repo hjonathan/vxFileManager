@@ -45,7 +45,6 @@ const data = defineModel('data', {
 
 const formattedDate = computed(() => {
   return data.value?.appDocCreateDate
-  console.log('data.value.lastModified', data.value?.appDocCreateDate)
   return dayjs(data.value.appDocCreateDate).format(dateFormat)
 })
 </script>
