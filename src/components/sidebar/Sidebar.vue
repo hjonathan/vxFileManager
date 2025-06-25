@@ -10,7 +10,7 @@
             <BaseSection :items="baseItems"/>
           </li>
           <li>
-            <HomeBaseSection v-model:items="data" title="Navigator" @event="onEvent" :enable="true" />
+            <HomeBaseSection v-model:items="data" :title="$t('ID_HOME')" @event="onEvent" :enable="true" />
           </li>
         </ul>
       </nav>
@@ -23,6 +23,7 @@ import { ref } from 'vue'
 import HeaderSidebar from './header/HeaderSidebar.vue'
 import BaseSection from './baseSection/BaseSection.vue'
 import HomeBaseSection from '../sidebar/homeSection/HomeBaseSection.vue';
+import { $t } from '../config/globalVariables'
 import {
   HomeIcon,
   TrashIcon,

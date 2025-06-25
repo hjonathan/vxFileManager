@@ -1,10 +1,12 @@
+import { $t } from '../config/globalVariables'
+
 export const deleteItemModalConfig = (emit)=>{
   return {
     type: 'delete-item',
-    title: 'Delete',
-    description: 'Do you want to deleted selected(1) items?',
-    buttonLabel: 'Delete',
-    buttonCancelLabel: 'Cancel',
+    title: $t('ID_DELETE'),
+    description: $t('ID_DELETE_DESCRIPTION'),
+    buttonLabel: $t('ID_DELETE'),
+    buttonCancelLabel: $t('ID_CANCEL'),
     buttonHandler: (emit)=>{
       emit('event', {
         type: 'delete-item'
@@ -16,14 +18,14 @@ export const deleteItemModalConfig = (emit)=>{
       })
     },
   }
-}
+} 
 
 export const createFolderModalConfig = (emit)=>{
   return {
     type: 'create-folder',
-    title: 'Create Folder',
-    buttonLabel: 'Create',
-    buttonCancelLabel: 'Cancel',
+    title: $t('ID_CREATE_FOLDER'),
+    buttonLabel: $t('ID_CREATE'),
+    buttonCancelLabel: $t('ID_CANCEL'),
     buttonHandler: (emit, data)=>{
       emit('event', {
         type: 'create-folder',

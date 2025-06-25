@@ -1,20 +1,22 @@
+import { $t } from '../config/globalVariables'
+
 export const directoryMenu =  ()=> {
   return [
     { 
       id: 'open',
-      label: 'Open',
+      label: $t('ID_OPEN'),
     },
     { 
       id: 'delete',
-      label: 'Delete',
+      label: $t('ID_DELETE'),
     },
     { 
       id: 'information',
-      label: 'Information',
+      label: $t('ID_INFORMATION'),
     },
     { 
       id: 'move',
-      label: 'Move to',
+      label: $t('ID_MOVE_TO'),
     },
   ]
 }
@@ -23,15 +25,15 @@ export const contentMainMenu =  ()=> {
   return [
     { 
       id: 'create-folder',
-      label: 'Create Folder',
+      label: $t('ID_CREATE_FOLDER'),
     },
-    { 
+    {   
       id: 'refresh-folder',
-      label: 'Refresh',
+      label: $t('ID_REFRESH_LABEL'),
     },
     { 
       id: 'upload-files',
-      label: 'Upload files',
+      label: $t('ID_UPLOAD'),
     },
   ]
 }
@@ -40,15 +42,15 @@ export const fileMenu =  ()=> {
   return [
     { 
       id: 'information',
-      label: 'Information',
+      label: $t('ID_INFORMATION'),
     },
     { 
       id: 'download',
-      label: 'Download',
+      label: $t('ID_DOWNLOAD'),
     },
     { 
       id: 'delete',
-      label: 'Delete',
+      label: $t('ID_DELETE'),
     },
   ]
 }
