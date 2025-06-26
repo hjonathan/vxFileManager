@@ -65,7 +65,7 @@ const onClickExpand = async () => {
 
 const onClickGetContent = () => {
   emit('event', {
-    type: "get-content",
+    type: "get-content-home",
     data: item,
   })
 }

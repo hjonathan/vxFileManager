@@ -90,12 +90,60 @@ const onClickGetContent = async (event) => {
 }
 
 /**
+ * Click on a folder to get the content
+ * @param {*} event ref variable (Its necessary to use .value to get the value of the ref)
+ */
+const onClickGetContentHome = async (event) => {
+  const itemSelected = event.data?.value
+  await updateDataContentMain(itemSelected)
+  updateCurrentItem(itemSelected)
+
+  // Update the navigator history
+  const path = buildPathItemNavigator(itemSelected)
+  fileManager.setAllHistory(path)
+  itemSelected.active = true
+}
+
+/**
+ * Find an item in the navigator and return its path of ancestors
+ * @param {*} inputItem - The item to search for
+ * @param {Array} path - Accumulator array to store the path (optional)
+ * @returns {Array} Array of ancestors including the item itself, from root to leaf
+ */
+const buildPathItemNavigator = (inputItem) => {
+  const path = []
+  if (!inputItem) return [];
+
+  const findItemPath = (items, target, currentPath) => {
+    for (const item of items) {
+      // Create a new path array with the current item
+      const newPath = [...currentPath, item];
+
+      // If we found the target item, return the path
+      if (item.id === target.id) {
+        return newPath;
+      }
+
+      // If this item has children, search them recursively
+      if (item.children?.length) {
+        const result = findItemPath(item.children, target, newPath);
+        if (result) return result;
+      }
+    }
+    return null;
+  }
+
+  const response = findItemPath(dataNavigator.value, inputItem, []) || path;
+
+  return response
+}
+
+/**
  * Find the item in the children and deactivate the other items
  * @param items - The items to search in
  * @param itemSelected - The item to search for
  * @returns The item if found, otherwise null
  */
-
 const activateItemInNavigator = (items, itemSelected) => {
   for (const item of items) {
     // Set active to false for all items first
@@ -260,6 +308,7 @@ const events = {
   'show-create-folder-modal': showCreateFolderModal,
   'show-upload-files-modal': showUploadFilesModal,
   'get-content': onClickGetContent,
+  'get-content-home': onClickGetContentHome,
   'toogle-view-mode': fileManager.toogleViewMode,
   'toogle-preview-mode': fileManager.tooglePreviewMode,
   'refresh-navigator': refreshNavigator,

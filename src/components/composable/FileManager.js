@@ -54,6 +54,10 @@ export const useFileManager = () => {
     history.value.push(item)
   }
 
+  const setAllHistory = (items) => {
+    history.value = items
+  }
+
   const goTo = (item) => {
     if (!item) {
       history.value = []
@@ -108,6 +112,7 @@ export const useFileManager = () => {
     getSelectedItem,
     history,
     setHistory,
+    setAllHistory,
     getHistory,
     getHistoryByIndex,
     getLastHistory,

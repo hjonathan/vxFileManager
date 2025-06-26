@@ -16,7 +16,7 @@ export const directoryMenu =  ()=> {
     },
     { 
       id: 'move',
-      label: $t('ID_MOVE_TO'),
+      label: $t('ID_MOVE'),
     },
   ]
 }
